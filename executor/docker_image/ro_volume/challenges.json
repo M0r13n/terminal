@@ -1,0 +1,137 @@
+{
+  "01_list_all_files": {
+    "identifier": "01_list_all_files",
+    "name": "List all files",
+    "dir": "01_list_all_files",
+    "description": "List all files inside the current directory.",
+    "solution": "ls",
+    "expected_output": "hello.txt\n",
+    "files_after_run": [
+      "./hello.txt"
+    ],
+    "target_file": "./hello.txt",
+    "target_file_content": "Good Job!",
+    "help": "You might take a look at the command 'ls'.",
+    "external_link": "https://manpages.ubuntu.com/manpages/bionic/de/man1/ls.1.html"
+  },
+  "02_get_current_directory": {
+    "identifier": "02_get_current_directory",
+    "name": "Get current directory",
+    "dir": "02_get_current_directory",
+    "description": "Get the current directory",
+    "solution": "pwd",
+    "expected_output": "/challenges/02_get_current_directory\n",
+    "files_after_run": []
+  },
+  "03_echo_hello_world": {
+    "identifier": "03_echo_hello_world",
+    "name": "Echo Hello World!",
+    "dir": "03_echo_hello_world",
+    "description": "Print 'Hello World!'.",
+    "solution": "echo Hello World!",
+    "expected_output": "Hello World!\n",
+    "files_after_run": []
+  },
+  "04_create_index_html": {
+    "identifier": "04_create_index_html",
+    "name": "Create index.html .",
+    "dir": "04_create_index_html",
+    "description": "Our new website needs to be developed. Create the initial index.html file inside the html folder.",
+    "solution": "touch index.html",
+    "expected_output": "",
+    "target_file": "./html/index.html"
+  },
+  "05_delete_me": {
+    "identifier": "05_delete_me",
+    "name": "Delete the file 'DELETE.ME', but leave the rest.",
+    "dir": "05_delete_me",
+    "description": "Delete the file 'DELETE.ME', but leave the rest.",
+    "solution": "rm folder/DELETE.ME",
+    "expected_output": "",
+    "files_after_run": [
+      "./BUT_LEAVE_ME.md",
+      "./folder"
+    ]
+  },
+  "06_last_10_lines": {
+    "identifier": "06_last_10_lines",
+    "name": "Echo the last 10 lines of the log file.",
+    "dir": "06_last_10_lines",
+    "description": "Echo the last 10 lines of the log file. There is only a single log file. Logfiles end with *.log.",
+    "solution": "tail -n 10 log.log",
+    "expected_output": "2020-06-07 09:12:31.795925528 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:31] \"\u001B[32mGET /orders/ HTTP/1.1\u001B[0m\" 302 -\n2020-06-07 09:12:32.071465908 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:32] \"\u001B[37mGET /auth/login?next=%2Forders%2F HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 09:12:35.508752371 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:35] \"\u001B[37mGET /static/css/main.css HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 09:12:35.980776921 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:35] \"\u001B[37mGET /static/js/scripts.js HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 09:12:36.063315759 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:36] \"\u001B[37mGET /static/js/custom_js.js HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 11:35:29.938206274 +0200 CEST [web-1] 10.127.0.11 - - [07/Jun/2020 09:35:29] \"\u001B[32mGET / HTTP/1.1\u001B[0m\" 302 -\n2020-06-07 11:35:30.052893048 +0200 CEST [web-1] 10.127.0.11 - - [07/Jun/2020 09:35:30] \"\u001B[37mGET /auth/login?next=%2F HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 11:35:30.150064998 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 09:35:30] \"\u001B[36mGET /static/js/scripts.js HTTP/1.1\u001B[0m\" 304 -\n2020-06-07 11:35:30.151823048 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 09:35:30] \"\u001B[36mGET /static/css/main.css HTTP/1.1\u001B[0m\" 304 -\n2020-06-07 11:35:30.156473300 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 09:35:30] \"\u001B[36mGET /static/js/custom_js.js HTTP/1.1\u001B[0m\" 304 -"
+  },
+  "07_all_lines_error": {
+    "identifier": "07_all_lines_error",
+    "name": "Get all those errors",
+    "dir": "07_all_lines_error",
+    "description": "Echo all lines that have the string '500' in them.",
+    "solution": "rm folder/DELETE.ME",
+    "expected_output": "\"192.168.4.164 - - [22/Dec/2016:15:19:08 +0300] \"GET /DVWA/vulnerabilities/Netsparkerde9009eb1827462bbb44b5560c4a6250/ HTTP/1.1\" 404 500 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:32 +0300] \"GET /DVWA/vulnerabilities/fi/include.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/vulnerabilities/fi/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:34 +0300] \"HEAD /DVWA/vulnerabilities/fi/include.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:57 +0300] \"GET /DVWA/dvwa/includes/DBMS/MySQL.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/dvwa/includes/DBMS/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:57 +0300] \"GET /DVWA/dvwa/includes/DBMS/PGSQL.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/dvwa/includes/DBMS/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:59 +0300] \"HEAD /DVWA/dvwa/includes/DBMS/MySQL.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:59 +0300] \"HEAD /DVWA/dvwa/includes/DBMS/PGSQL.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:21:11 +0300] \"GET /DVWA/dvwa/?C=%2f%2fr87.com%2fn%2fn.css%3f0x000500 HTTP/1.1\" 200 730 \"http://192.168.4.161/DVWA/dvwa/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:21:13 +0300] \"GET /DVWA/dvwa/includes/%0D%0Ans:netsparker056650=vuln HTTP/1.1\" 404 500 \"http://192.168.4.161/DVWA/dvwa/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n"
+  },
+  "08_current_user": {
+    "identifier": "08_current_user",
+    "name": "Get current user",
+    "dir": "07_all_lines_error",
+    "description": "Who are you? Echo your current username.",
+    "solution": "whoami",
+    "expected_output": "root\n"
+  },
+  "09_copy_file": {
+    "identifier": "09_copy_file",
+    "name": "Copy copy.me",
+    "dir": "09_copy_file",
+    "description": "Copy and Paste: Find and copy the file named 'copy.me' into the folder './destination/'",
+    "solution": "mkdir destination && cp a/b/c/d/e/f/g/copy.me ./destination/",
+    "expected_output": "",
+    "target_file": "./destination/copy.me"
+  },
+  "10_copy_locations": {
+    "identifier": "10_copy_locations",
+    "name": "Copy locations",
+    "dir": "10_copy_locations",
+    "description": "Copy the locations archive from Kiel to NY. After that remove the file from Kiel. Finally unzip the file",
+    "solution": "mv ./documents/kiel/locations.tar ./documents/ny/ && tar xfv ./documents/ny/locations.tar -C ./documents/ny/",
+    "expected_output": "locations.txt\n",
+    "files_after_run": [
+      "./bachelor_thesis",
+      "./pictures",
+      "./programs",
+      "./x64",
+      "./bachelor_thesis/all_those_important_notes.md",
+      "./documents",
+      "./documents/kiel",
+      "./documents/ny",
+      "./documents/ny/locations.tar",
+      "./documents/ny/locations.txt"
+    ],
+    "target_file": "./documents/ny/locations.txt",
+    "target_file_content": "Kiel\nBerlin\nHamburg\n"
+  },
+  "11_all_files_that_end_with_log": {
+    "identifier": "11_all_files_that_end_with_log",
+    "name": "Get all log files.",
+    "dir": "11_all_files_that_end_with_log",
+    "description": "Get all log files. Logfiles end with .log",
+    "solution": "ls | grep .log",
+    "expected_output": "b.log\nl.log\nsecret.log\n"
+  },
+  "12_find_all_env_files_with_secrets": {
+    "identifier": "12_find_all_env_files_with_secrets",
+    "name": "Find those secrets.",
+    "dir": "12_find_all_env_files_with_secrets",
+    "description": "Find all .env files and find the secret key.",
+    "solution": "cat .env | grep SECRET_KEY",
+    "expected_output": "SECRET_KEY=my_precious\n"
+  },
+  "13_replace": {
+    "identifier": "13_replace",
+    "name": "Replace .",
+    "dir": "13_replace",
+    "description": "Replace every occurrence of the word 'unix' to linux and save it to 'linux.txt'.",
+    "solution": "cat unix.txt | sed 's/unix/linux/g' > linux.txt",
+    "expected_output": "",
+    "target_file": "",
+    "target_file_content": "linux is a great os. linux is opensource. linux is a free os.\nYou should learn about linux.\n"
+  }
+}

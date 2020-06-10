@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+
+import json
+import logging
+import os
+
+from flask.cli import FlaskGroup
+from sqlalchemy.exc import IntegrityError, InvalidRequestError
+
+from executor.run_cmd import CommandExecutor
+from server.app import create_app
+from server.extensions import db
+from server.logging import setup_logger
+from server.models import Badge, Challenge
+
+app = create_app()
+cli = FlaskGroup(create_app=create_app)
+
+HERE = os.path.abspath(os.path.dirname(__file__))
+PROJECT_ROOT = os.path.join(HERE, "project")
+
+
+@cli.command()
+def create_db():
+    """ Drops all existing tables and creates them afterwards """
+    db.create_all()
+    print("Created")
+
+
+@cli.command()
+def drop_db():
+    """Drops the db tables."""
+    db.drop_all()
+    print("Dropped")
+
+
+@cli.command()
+def clean_db():
+    """ Drop existing tables and create fresh new ones """
+    db.drop_all()
+    db.create_all()
+    print("Created")
+
+
+@cli.command()
+def load_badges():
+    """Creates and saves badges as defined in data.json"""
+    with open("data/badges.json", "r") as badge_fd:
+        badge_dict: dict = json.loads(badge_fd.read())
+        for _, badge in badge_dict.items():
+            try:
+                Badge.create(
+                    name=badge['name'],
+                    src_filename=badge['src_filename'],
+                    description=badge['description'],
+                    condition=badge.get('condition')
+                )
+            except (IntegrityError, InvalidRequestError):
+                print(f"Skipping {badge['name']} because it already exists.")
+    print(f"Created badges. Now there are {Badge.query.count()} badges.")
+
+
+@cli.command()
+def load_challenges():
+    """Load all challenges from file"""
+    with open("executor/docker_image/ro_volume/challenges.json", "r") as badge_fd:
+        challenge_dict: dict = json.loads(badge_fd.read())
+        for _, challenge in challenge_dict.items():
+            try:
+                Challenge.create(
+                    identifier=challenge['identifier'],
+                    name=challenge['name'],
+                    description=challenge['description'],
+                    help=challenge.get('help', None),
+                    external_link=challenge.get('external_link', None),
+                )
+            except (IntegrityError, InvalidRequestError):
+                print(f"Skipping {challenge['name']} because it already exists.")
+    print(f"Created Challenges. Now there are {Challenge.query.count()} challenges.")
+
+
+@cli.command()
+def test():
+    """ Test docker """
+    c = CommandExecutor()
+    output = c.run_command_parsed(("echo hi",), challenge="01_list_all_files")
+    print(output)
+
+
+if __name__ == "__main__":
+    # Logging
+    setup_logger(level=logging.DEBUG if app.config['DEBUG'] else logging.INFO)
+    cli()

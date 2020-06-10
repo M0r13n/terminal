@@ -1,0 +1,3 @@
+DOCKER_PATH=unix:///var/docker/api
+SECRET_KEY=my_precious
+DEBUG=False

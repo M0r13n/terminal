@@ -1,0 +1,237 @@
+#!/usr/bin/env python
+
+"""
+This script executes a command in a sub shell(Bash) and validates it's output and side effects.
+
+At first a Challenge object is created based on the first element of the arguments-vector (sys.argv).
+Each challenge is defined by it's entry inside challenges.json and it's folder.
+Every challenge needs to have it's own folder, which is named exactly like the challenge_identifier (e.g. 01_list_files).
+
+When the challenge data is loaded, the command is executed.
+All remaining arguments inside the argument vector (sys.argv[2:]) will be interpreted as a command.
+To catch every output of that comment, even on failure, the command is executed in a separate shell process.
+Consider a comment like 'ls -a'. This will become 'bash -c ls -a'.
+
+All output of the command (both STDERR and STDOUT) will be captured and compared to the challenges expected output.
+If both match the command is considered to be valid.
+
+Additional checks are possible to check for deletions, creations and updates of files.
+Those can be defined inside the challenges.json for each individual challenge.
+
+All errors and un-handled exceptions will lead to non-zero exit codes and cause the Docker-Python-API to raise an ContainerError exception.
+"""
+import difflib
+import json
+import os
+import pathlib
+import subprocess
+import sys
+import typing
+
+CRLF = '\r\n'
+LF = '\n'
+
+
+class Challenge:
+    CHALLENGE_FILE_PATH = "/ro_volume/challenges.json"
+
+    def __init__(self, identifier: str):
+        # Always required Attributes
+        self.identifier: str = identifier
+        self.name: str = ""
+        self.dir: str = ""
+        self.description: str = ""
+        self.solution: str = ""
+        self.expected_output: str = ""
+        self.dict: dict = {}
+
+        # Optional Attributes
+        self.files_after_run: typing.List[str] = []
+        self.target_file: typing.Optional[str] = None
+        self.target_file_expected_content: typing.Optional[str] = None
+
+        self.load_from_file()
+
+    def __str__(self):
+        return self.serialize()
+
+    # Properties
+
+    @property
+    def verify_output_only(self):
+        return not self.verify_file_content_has_changed and not self.verify_file_created_or_deleted
+
+    @property
+    def verify_file_created_or_deleted(self):
+        return len(self.files_after_run) > 0
+
+    @property
+    def verify_file_content_has_changed(self):
+        return self.target_file and self.target_file_expected_content
+
+    # Init methods
+
+    def serialize(self) -> str:
+        return json.dumps(self.dict, indent=4, sort_keys=False)
+
+    def load_from_file(self) -> None:
+        self.load_challenge_data()
+        try:
+            self.get_required_attrs()
+            self.get_optional_attrs()
+        except KeyError as err:
+            raise err from ValueError(f"Malformed Challenge-JSON detected.")
+
+    def load_challenge_data(self) -> dict:
+        fd = self.open_challenge_file()
+        content = self.read_challenge_file_content(fd)
+        self.dict = self.find_challenge_by_identifier(content)
+        return self.dict
+
+    def open_challenge_file(self) -> typing.TextIO:
+        challenge_fd = open(self.CHALLENGE_FILE_PATH, "r")
+        return challenge_fd
+
+    def read_challenge_file_content(self, challenge_fd: typing.TextIO) -> dict:
+        content = challenge_fd.read()
+        json_content = json.loads(content)
+        self.dict = json_content
+        return json_content
+
+    def find_challenge_by_identifier(self, json_content: dict) -> dict:
+        try:
+            challenge_data = json_content[self.identifier]
+            return challenge_data
+        except KeyError as err:
+            raise err from ValueError(f"{self.identifier} is not a valid challenge identifier")
+
+    def get_required_attrs(self) -> None:
+        challenge_data = self.dict
+        self.name = challenge_data['name']
+        self.dir = challenge_data['dir']
+        self.description = challenge_data['description']
+        self.solution = challenge_data['solution']
+        self.expected_output = challenge_data['expected_output']
+
+    def get_optional_attrs(self) -> None:
+        self.files_after_run = self.dict.get('files_after_run', [])
+        self.target_file = self.dict.get('target_file', None)
+        self.target_file_expected_content = self.dict.get('target_file_expected_content', None)
+
+    # Runner methods below
+
+    def try_solve(self, command: typing.List[str]) -> typing.Tuple[bool, str]:
+        runner = Runner(command=command)
+        runner.execute_command()
+        output = runner.get_output_decoded()
+        if runner.failed:
+            return False, output
+        success = self.verify_output(output) and self.verify_files() and self.verify_file_content()
+        return success, output
+
+    # Validations methods below
+    def _diff(self, expected, output):
+        print('{} => {}'.format(expected, output))
+        for i, s in enumerate(difflib.ndiff(expected, output)):
+            if s[0] == ' ':
+                continue
+            elif s[0] == '-':
+                print(u'Delete "{}" from position {}'.format(s[-1], i))
+            elif s[0] == '+':
+                print(u'Add "{}" to position {}'.format(s[-1], i))
+
+    def verify_output(self, output) -> bool:
+        expected = self.expected_output.replace(CRLF, LF)
+        output = output.replace(CRLF, LF)
+        return expected == output
+
+    def verify_files(self) -> bool:
+        if self.target_file and not os.path.exists(self.target_file):
+            return False
+        if not self.verify_file_created_or_deleted:
+            return True
+        return self.compare_files()
+
+    def compare_files(self) -> bool:
+        found_files = []
+        for path, subdirs, files in os.walk("./"):
+            for name in filter(lambda file: file != '.gitkeep', files):
+                filename = os.path.join(path, name)
+                found_files.append(filename)
+            for dir_ in subdirs:
+                dirname = os.path.join(path, dir_)
+                found_files.append(dirname)
+        return set(found_files) == set(self.files_after_run)
+
+    def verify_file_content(self) -> bool:
+        if not self.verify_file_content_has_changed:
+            return True
+        return self.check_file_content()
+
+    def check_file_content(self) -> bool:
+        try:
+            with open(self.target_file, "r") as target_file:
+                content = target_file.read()
+                print(content, self.target_file_expected_content)
+                return content == self.target_file_expected_content
+        except FileNotFoundError as e:
+            raise e from ValueError(f"{self.target_file} not found in {pathlib.Path(__file__).parent.absolute()}")
+
+
+class Runner:
+
+    def __init__(self, command: typing.List[str], stdout: int = subprocess.PIPE, stderr: int = subprocess.PIPE):
+        self.command: typing.List[str] = command
+        self.stdout: int = stdout
+        self.stderr: int = stderr
+        self.result: typing.Optional[subprocess.CompletedProcess] = None
+
+    @property
+    def failed(self):
+        return self.result and self.get_exit_code() != 0
+
+    def get_exit_code(self) -> int:
+        if not self.result:
+            raise ValueError("Command was not executed yet! You need to call 'execute_command' first!")
+        return self.result.returncode
+
+    def get_stdout(self) -> bytes:
+        if not self.result:
+            raise ValueError("Command was not executed yet! You need to call 'execute_command' first!")
+        return self.result.stdout
+
+    def get_stderr(self) -> bytes:
+        if not self.result:
+            raise ValueError("Command was not executed yet! You need to call 'execute_command' first!")
+        return self.result.stderr
+
+    def get_output(self) -> bytes:
+        if self.get_exit_code() != 0:
+            return self.get_stderr()
+        else:
+            return self.get_stdout()
+
+    def get_output_decoded(self) -> str:
+        return self.get_output().decode('utf-8')
+
+    def execute_command_in_sub_shell(self) -> subprocess.CompletedProcess:
+        command = ["bash", "-c"] + [" ".join(self.command)]
+        return subprocess.run(command, stdout=self.stdout, stderr=self.stderr)
+
+    def execute_command(self) -> None:
+        self.result = self.execute_command_in_sub_shell()
+
+
+def main(arg_vector):
+    challenge = Challenge(arg_vector[0])
+    challenge_solved, cmd_out = challenge.try_solve(arg_vector[1:])
+    print(json.dumps({'success': challenge_solved, 'output': cmd_out}), file=sys.stdout)
+    sys.exit(0)
+
+
+if __name__ == "__main__":
+    try:
+        main(sys.argv[1:])
+    except Exception as e:
+        print(json.dumps({'success': False, 'output': str(e)}), file=sys.stderr)
+        sys.exit(1)

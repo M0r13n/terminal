@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="./css/mvp.min.css">
+    <!--<link rel="stylesheet" href="./css/main.css">-->
+    <link rel="stylesheet" href="./css/main.min.css">
+
+    <meta charset="utf-8">
+    <meta name="description" content="Learn the commandline">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Kommandozeile</title>
+</head>
+
+<body>
+<header><h1><a href="./index.html">WebShell</a></h1></header>
+<main>
+    <section id="contact">
+        <header>
+            <h2>Found a bug (or a feature)?</h2>
+            <p>Please report it!&darr;</p>
+        </header>
+        <form id="contactform" action="javascript:void(0);" method="POST">
+            <label for="name">Your name</label>
+            <input type="text" id="name" name="name" placeholder="Your Name" style="width:90%">
+
+            <label for="text">Bug report</label>
+            <textarea name="text" id="text" form="contactform" rows="8" placeholder="What's broken?" style="width:90%"></textarea>
+            <header>
+                <button type="submit" id="submitBtn" style="width:90%">Submit</button>
+                <p><b id="my-form-status"></b></p>
+            </header>
+        </form>
+    </section>
+</main>
+
+<footer>
+    <header>
+        <table>
+            <td><a href="./about.html">about</a></td>
+            <td><a href="./attribution.html">attribution</a></td>
+            <td><a href="./report.html">report a bug</a></td>
+        </table>
+    </header>
+</footer>
+<script src="js/report.min.js"></script>
+</body>
+
+</html>
