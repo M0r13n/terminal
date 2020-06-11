@@ -3,9 +3,11 @@ const WELCOME_GREETING = "Welcome to WebShell.😀\n" +
     "This is a web application that asks you to solve some problems by using the commandline.\n" +
     "You can read more about the page here: https://command-line.online/about.html\n" +
     "But you need to solve the problem with a SINGLE line of bash.\n" +
-    "Each question can be solved by submitting a command or a combination of commands.\n" +
+    "Each question can be solved by submitting a command or a combination of commands.\n\n\n" +
     "You can clear the terminal by typing " + apply_color('clear', "blue") + ".\n" +
-    "If you need help, you can type  " + apply_color('help', "blue") + " and you will receive a hint and a link to some useful resource.\n" +
+    "You can go to the about page by typing" + apply_color('about', "blue") + "\n" +
+    "If you find a bug you can type " + apply_color('bug', "blue") + " and submit a bug report!\n" +
+    "If you need help, you can type " + apply_color('help', "blue") + " and you will receive a hint and a link to some useful resource.\n\n" +
     "Question are displayed in gray, with an leading '#'. E.g.:\n" +
     apply_color("# List all .txt files", "gray") + "\n" +
     "You can start hacking right now! Good luck!\n";
@@ -436,6 +438,9 @@ class CommandlineEngine {
             return true;
         } else if (command.trim() === 'about') {
             window.location.href = "/about.html";
+            return true;
+        } else if (command.trim() === 'bug') {
+            window.location.href = "/report.html";
             return true;
         }
         return false;
