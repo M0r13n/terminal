@@ -235,7 +235,7 @@ class Progressbar {
 
 
     constructor(id = "progressbar") {
-        this._percentage = 0;
+        this._percentage = 1;
         this.id = id;
         this.span = null;
         this.create_element();

@@ -1,7 +1,13 @@
 /* Base */
+html, body {
+    height: 100%;
+}
+
 body {
-    background-color: black;
+    margin: 0;
+    position: relative;
     color: white;
+    background-color: black;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 }
 
@@ -161,35 +167,35 @@ button:hover {
 
 /* Neon links */
 .neon:link {
-    color: #83ff00;
+    color: #00E676;
     text-decoration: none;
 }
 
 .neon:visited {
-    color: #83ff00;
+    color: #00E676;
     text-decoration: none;
 }
 
 .neon {
     cursor: pointer;
     color: rgba(255, 255, 255, 0);
-    text-shadow: 0em 0em 3em #83ff00,
-    0em 0em 2em #83ff00,
-    1px 1px 5px #83ff00,
-    0px 0px 15px #83ff00,
+    text-shadow: 0em 0em 3em #00E676,
+    0em 0em 2em #00E676,
+    1px 1px 5px #00E676,
+    0px 0px 15px #00E676,
     1px 0px 0px white,
     -1px 0px 2px rgba(0, 0, 0, .5);
 }
 
 .neon:hover {
-    color: #83ff00;
-    text-shadow: 0em 0em 5em #83ff00,
-    0em 0em 3em #83ff00,
-    0em 0em 2em #83ff00,
-    1px 1px 5px #83ff00,
-    0px 0px 10px #83ff00,
-    0px 0px 25px #83ff00,
-    0px 0px 45px #83ff00,
+    color: #00E676;
+    text-shadow: 0em 0em 5em #00E676,
+    0em 0em 3em #00E676,
+    0em 0em 2em #00E676,
+    1px 1px 5px #00E676,
+    0px 0px 10px #00E676,
+    0px 0px 25px #00E676,
+    0px 0px 45px #00E676,
     2px 1px 0px white,
     -1px 0px 2px rgba(0, 0, 0, .5);
 }
@@ -198,17 +204,31 @@ button:hover {
 /* Terminal */
 .terminal {
     position: absolute;
-    top: 0;
+    top: 35px;
     right: 0;
     bottom: 0;
     left: 0;
-    overflow: hidden;
+    padding-bottom: 80px;
 }
+
+.terminal::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 2;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+}
+
 
 .danger {
     color: red;
 }
-
 
 /* Badges */
 .disabled {
@@ -218,6 +238,7 @@ button:hover {
 #badgeContainer {
     height: 35px;
     background-color: #000000;
+    margin-top: 5px;
 }
 
 img {
