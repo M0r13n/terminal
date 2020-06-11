@@ -14,8 +14,7 @@ const WELCOME_BACK_GREETING = "Welcome back to WebShell.😀\n" +
 const terminal_config = {
     TAB_COMPLETION: ["find", "echo", "awk", "sed", "wc", "grep", "cat", "sort", "cut", "ls"],
     GREETINGS: WELCOME_GREETING,
-    NAME: "Kommandozeile",
-    HEIGHT: 500,
+    NAME: "Webshell",
 }
 
 const server_config = {
@@ -489,6 +488,7 @@ class CommandlineEngine {
         }
         if (result.success) {
             // if the command was solved correctly load the the next challenge
+            this.terminal.clear();
             this.load_next_challenge();
             this.update();
         }
@@ -559,13 +559,23 @@ function init_terminal(terminalEngine) {
     terminalEngine.terminal = $('#terminal').terminal(async (command, term) => {
         term.pause();
         // handle entered commands
-        await terminalEngine.handle_submit(command, term);
+        if (command.length) {
+            await terminalEngine.handle_submit(command, term);
+        }
         term.resume();
     }, {
+        inputStyle: 'contenteditable',
+        exceptionHandler: function (e, label) {
+            if (typeof window.flush == 'undefined') {
+                window.flush = 0;
+            }
+            if (flush++ <= 1) {
+                $('<pre>' + e.message + "\n" + e.stack + '</pre>').appendTo('body');
+            }
+        },
         greetings: terminal_config.GREETINGS, // displays a fixed greeting at the top of the terminal
         convertLinks: true,
         name: terminal_config.NAME,
-        height: terminal_config.HEIGHT,
         prompt: (callback_f) => {
             // custom prompt function (>>>)
             callback_f(apply_color(">>> ", "green"));

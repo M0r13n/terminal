@@ -20,8 +20,7 @@ minify-js:
 	curl -X POST -s --data-urlencode 'input@static/js/feedback.js' https://javascript-minifier.com/raw > static/js/feedback.min.js
 
 minify-css:
-	curl -X POST -s --data-urlencode 'input@static/css/main.css' https://cssminifier.com/raw > static/css/main.min.css && \
-	curl -X POST -s --data-urlencode 'input@static/css/mvp.css' https://cssminifier.com/raw > static/css/mvp.min.css
+	curl -X POST -s --data-urlencode 'input@static/css/main.css' https://cssminifier.com/raw > static/css/main.min.css
 
 html-file:
 	cp static/_base.html static/$(name)
