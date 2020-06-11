@@ -1,8 +1,11 @@
 /* Config */
 const WELCOME_GREETING = "Welcome to WebShell.😀\n" +
-    "This is a web application that asks you to solve some problems by using the commandline. You can use whatever command you like.\n" +
+    "This is a web application that asks you to solve some problems by using the commandline.\n" +
+    "You can use whatever command you like.\n" +
+    "But you need to solve the problem with a SINGLE line of bash.\n" +
     "Each question can be solved by submitting a command or a combination of commands.\n" +
-    "If you need help, you can type 'help' and you will receive a hint and a link to some useful resource.\n" +
+    "You can clear the terminal by typing " + apply_color('clear', "blue") + ".\n" +
+    "If you need help, you can type  " + apply_color('help', "blue") + " and you will receive a hint and a link to some useful resource.\n" +
     "Question are displayed in gray, with an leading '#'. E.g.:\n" +
     apply_color("# List all .txt files", "gray") + "\n" +
     "You can start hacking right now! Good luck!\n";
@@ -12,7 +15,7 @@ const WELCOME_BACK_GREETING = "Welcome back to WebShell.😀\n" +
     "Remember: If you need help, you can type 'help' and you will receive a hint and a link to some useful resource.\n";
 
 const terminal_config = {
-    TAB_COMPLETION: ["find", "echo", "awk", "sed", "wc", "grep", "cat", "sort", "cut", "ls"],
+    TAB_COMPLETION: ["find", "echo", "awk", "sed", "wc", "grep", "cat", "sort", "cut", "ls", "rm", "less", "head", "tail"],
     GREETINGS: WELCOME_GREETING,
     NAME: "Webshell",
 }

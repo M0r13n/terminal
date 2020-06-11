@@ -21,7 +21,8 @@
     "description": "Get the current directory",
     "solution": "pwd",
     "expected_output": "/challenges/02_get_current_directory\n",
-    "files_after_run": []
+    "files_after_run": [],
+    "help": "You might take a look at the command 'pwd'"
   },
   "03_echo_hello_world": {
     "identifier": "03_echo_hello_world",
@@ -30,7 +31,8 @@
     "description": "Print 'Hello World!'.",
     "solution": "echo Hello World!",
     "expected_output": "Hello World!\n",
-    "files_after_run": []
+    "files_after_run": [],
+    "help": "Echo it out!"
   },
   "04_create_index_html": {
     "identifier": "04_create_index_html",
@@ -39,7 +41,8 @@
     "description": "Our new website needs to be developed. Create the initial index.html file inside the html folder.",
     "solution": "touch index.html",
     "expected_output": "",
-    "target_file": "./html/index.html"
+    "target_file": "./html/index.html",
+    "help": "Make sure that you place the file inside the html directory. You might take a look at the command touch."
   },
   "05_delete_me": {
     "identifier": "05_delete_me",
@@ -51,7 +54,8 @@
     "files_after_run": [
       "./BUT_LEAVE_ME.md",
       "./folder"
-    ]
+    ],
+    "help": "Look into folders and subfolders. Also make sure to only delete DELETE.me"
   },
   "06_last_10_lines": {
     "identifier": "06_last_10_lines",
@@ -59,7 +63,8 @@
     "dir": "06_last_10_lines",
     "description": "Echo the last 10 lines of the log file. There is only a single log file. Logfiles end with *.log.",
     "solution": "tail -n 10 log.log",
-    "expected_output": "2020-06-07 09:12:31.795925528 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:31] \"\u001B[32mGET /orders/ HTTP/1.1\u001B[0m\" 302 -\n2020-06-07 09:12:32.071465908 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:32] \"\u001B[37mGET /auth/login?next=%2Forders%2F HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 09:12:35.508752371 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:35] \"\u001B[37mGET /static/css/main.css HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 09:12:35.980776921 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:35] \"\u001B[37mGET /static/js/scripts.js HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 09:12:36.063315759 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:36] \"\u001B[37mGET /static/js/custom_js.js HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 11:35:29.938206274 +0200 CEST [web-1] 10.127.0.11 - - [07/Jun/2020 09:35:29] \"\u001B[32mGET / HTTP/1.1\u001B[0m\" 302 -\n2020-06-07 11:35:30.052893048 +0200 CEST [web-1] 10.127.0.11 - - [07/Jun/2020 09:35:30] \"\u001B[37mGET /auth/login?next=%2F HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 11:35:30.150064998 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 09:35:30] \"\u001B[36mGET /static/js/scripts.js HTTP/1.1\u001B[0m\" 304 -\n2020-06-07 11:35:30.151823048 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 09:35:30] \"\u001B[36mGET /static/css/main.css HTTP/1.1\u001B[0m\" 304 -\n2020-06-07 11:35:30.156473300 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 09:35:30] \"\u001B[36mGET /static/js/custom_js.js HTTP/1.1\u001B[0m\" 304 -"
+    "expected_output": "2020-06-07 09:12:31.795925528 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:31] \"\u001B[32mGET /orders/ HTTP/1.1\u001B[0m\" 302 -\n2020-06-07 09:12:32.071465908 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:32] \"\u001B[37mGET /auth/login?next=%2Forders%2F HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 09:12:35.508752371 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:35] \"\u001B[37mGET /static/css/main.css HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 09:12:35.980776921 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:35] \"\u001B[37mGET /static/js/scripts.js HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 09:12:36.063315759 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 07:12:36] \"\u001B[37mGET /static/js/custom_js.js HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 11:35:29.938206274 +0200 CEST [web-1] 10.127.0.11 - - [07/Jun/2020 09:35:29] \"\u001B[32mGET / HTTP/1.1\u001B[0m\" 302 -\n2020-06-07 11:35:30.052893048 +0200 CEST [web-1] 10.127.0.11 - - [07/Jun/2020 09:35:30] \"\u001B[37mGET /auth/login?next=%2F HTTP/1.1\u001B[0m\" 200 -\n2020-06-07 11:35:30.150064998 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 09:35:30] \"\u001B[36mGET /static/js/scripts.js HTTP/1.1\u001B[0m\" 304 -\n2020-06-07 11:35:30.151823048 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 09:35:30] \"\u001B[36mGET /static/css/main.css HTTP/1.1\u001B[0m\" 304 -\n2020-06-07 11:35:30.156473300 +0200 CEST [web-1] 10.127.0.12 - - [07/Jun/2020 09:35:30] \"\u001B[36mGET /static/js/custom_js.js HTTP/1.1\u001B[0m\" 304 -",
+    "help": "Make sure only echo the LAST 10 lines of the file. Hint: you can use tail."
   },
   "07_all_lines_error": {
     "identifier": "07_all_lines_error",
@@ -67,7 +72,8 @@
     "dir": "07_all_lines_error",
     "description": "Echo all lines that have the string '500' in them.",
     "solution": "rm folder/DELETE.ME",
-    "expected_output": "\"192.168.4.164 - - [22/Dec/2016:15:19:08 +0300] \"GET /DVWA/vulnerabilities/Netsparkerde9009eb1827462bbb44b5560c4a6250/ HTTP/1.1\" 404 500 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:32 +0300] \"GET /DVWA/vulnerabilities/fi/include.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/vulnerabilities/fi/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:34 +0300] \"HEAD /DVWA/vulnerabilities/fi/include.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:57 +0300] \"GET /DVWA/dvwa/includes/DBMS/MySQL.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/dvwa/includes/DBMS/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:57 +0300] \"GET /DVWA/dvwa/includes/DBMS/PGSQL.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/dvwa/includes/DBMS/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:59 +0300] \"HEAD /DVWA/dvwa/includes/DBMS/MySQL.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:59 +0300] \"HEAD /DVWA/dvwa/includes/DBMS/PGSQL.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:21:11 +0300] \"GET /DVWA/dvwa/?C=%2f%2fr87.com%2fn%2fn.css%3f0x000500 HTTP/1.1\" 200 730 \"http://192.168.4.161/DVWA/dvwa/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:21:13 +0300] \"GET /DVWA/dvwa/includes/%0D%0Ans:netsparker056650=vuln HTTP/1.1\" 404 500 \"http://192.168.4.161/DVWA/dvwa/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n"
+    "expected_output": "\"192.168.4.164 - - [22/Dec/2016:15:19:08 +0300] \"GET /DVWA/vulnerabilities/Netsparkerde9009eb1827462bbb44b5560c4a6250/ HTTP/1.1\" 404 500 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:32 +0300] \"GET /DVWA/vulnerabilities/fi/include.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/vulnerabilities/fi/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:34 +0300] \"HEAD /DVWA/vulnerabilities/fi/include.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:57 +0300] \"GET /DVWA/dvwa/includes/DBMS/MySQL.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/dvwa/includes/DBMS/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:57 +0300] \"GET /DVWA/dvwa/includes/DBMS/PGSQL.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/dvwa/includes/DBMS/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:59 +0300] \"HEAD /DVWA/dvwa/includes/DBMS/MySQL.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:59 +0300] \"HEAD /DVWA/dvwa/includes/DBMS/PGSQL.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:21:11 +0300] \"GET /DVWA/dvwa/?C=%2f%2fr87.com%2fn%2fn.css%3f0x000500 HTTP/1.1\" 200 730 \"http://192.168.4.161/DVWA/dvwa/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:21:13 +0300] \"GET /DVWA/dvwa/includes/%0D%0Ans:netsparker056650=vuln HTTP/1.1\" 404 500 \"http://192.168.4.161/DVWA/dvwa/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n",
+    "help": "You can pipe the output of a command into another one by using the | operator."
   },
   "08_current_user": {
     "identifier": "08_current_user",
@@ -75,7 +81,8 @@
     "dir": "07_all_lines_error",
     "description": "Who are you? Echo your current username.",
     "solution": "whoami",
-    "expected_output": "root\n"
+    "expected_output": "root\n",
+    "help": "Who am i ?"
   },
   "09_copy_file": {
     "identifier": "09_copy_file",
@@ -84,7 +91,8 @@
     "description": "Copy and Paste: Find and copy the file named 'copy.me' into the folder './destination/'",
     "solution": "mkdir destination && cp a/b/c/d/e/f/g/copy.me ./destination/",
     "expected_output": "",
-    "target_file": "./destination/copy.me"
+    "target_file": "./destination/copy.me",
+    "help": "You might need toi look into a directory or subdirectories. Also it might be needed to create the destination folder."
   },
   "10_copy_locations": {
     "identifier": "10_copy_locations",
@@ -106,7 +114,8 @@
       "./documents/ny/locations.txt"
     ],
     "target_file": "./documents/ny/locations.txt",
-    "target_file_content": "Kiel\nBerlin\nHamburg\n"
+    "target_file_content": "Kiel\nBerlin\nHamburg\n",
+    "help": "Read carefully: After your command there should be two files inside the NY folder and zero files inside Kiel."
   },
   "11_all_files_that_end_with_log": {
     "identifier": "11_all_files_that_end_with_log",
@@ -114,7 +123,8 @@
     "dir": "11_all_files_that_end_with_log",
     "description": "Get all log files. Logfiles end with .log",
     "solution": "ls | grep .log",
-    "expected_output": "b.log\nl.log\nsecret.log\n"
+    "expected_output": "b.log\nl.log\nsecret.log\n",
+    "help": "This should be easy now."
   },
   "12_find_all_env_files_with_secrets": {
     "identifier": "12_find_all_env_files_with_secrets",
@@ -122,7 +132,8 @@
     "dir": "12_find_all_env_files_with_secrets",
     "description": "Find all .env files and find the secret key.",
     "solution": "cat .env | grep SECRET_KEY",
-    "expected_output": "SECRET_KEY=my_precious\n"
+    "expected_output": "SECRET_KEY=my_precious\n",
+    "help": "Files might not show up when using ls without any parameters. Your result should like: SECRET_KEY=something ."
   },
   "13_replace": {
     "identifier": "13_replace",
@@ -133,5 +144,6 @@
     "expected_output": "",
     "target_file": "",
     "target_file_content": "linux is a great os. linux is opensource. linux is a free os.\nYou should learn about linux.\n"
+    "help": "There should be two files: unix.txt and linux.txt. Also you might take a look at sed."
   }
 }
