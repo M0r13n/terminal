@@ -143,7 +143,7 @@
     "solution": "cat unix.txt | sed 's/unix/linux/g' > linux.txt",
     "expected_output": "",
     "target_file": "",
-    "target_file_content": "linux is a great os. linux is opensource. linux is a free os.\nYou should learn about linux.\n"
+    "target_file_content": "linux is a great os. linux is opensource. linux is a free os.\nYou should learn about linux.\n",
     "help": "There should be two files: unix.txt and linux.txt. Also you might take a look at sed."
   }
 }
