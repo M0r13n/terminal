@@ -16,13 +16,18 @@ h1 {
     padding: 80px;
 }
 
+main {
+    min-height: 100%;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
 /* Footer */
 footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
+    clear: both;
+    position: relative;
+    z-index: 1;
     width: 100%;
-    padding: 10px;
 }
 
 table {
@@ -92,6 +97,8 @@ form {
     display: block;
     padding: 1.5rem;
     text-align: left;
+    margin-left: 25px;
+    margin-right: 25px;
 }
 
 form header {
@@ -208,7 +215,7 @@ button:hover {
     right: 0;
     bottom: 0;
     left: 0;
-    padding-bottom: 80px;
+    overflow: hidden;
 }
 
 .terminal::before {

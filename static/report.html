@@ -21,10 +21,10 @@
         </header>
         <form id="contactform" action="javascript:void(0);" method="POST">
             <label for="name">Your name</label>
-            <input type="text" id="name" name="name" placeholder="Your Name" style="width:90%">
+            <input type="text" id="name" name="name" placeholder="Your Name" style="width:90%" required>
 
             <label for="text">Bug report</label>
-            <textarea name="text" id="text" form="contactform" rows="8" placeholder="What's broken?" style="width:90%"></textarea>
+            <textarea name="text" id="text" form="contactform" rows="8" placeholder="What's broken?" style="width:90%" required></textarea>
             <header>
                 <button type="submit" id="submitBtn" style="width:90%">Submit</button>
                 <p><b id="my-form-status"></b></p>
