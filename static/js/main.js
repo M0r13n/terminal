@@ -1,7 +1,7 @@
 /* Config */
 const WELCOME_GREETING = "Welcome to WebShell.😀\n" +
     "This is a web application that asks you to solve some problems by using the commandline.\n" +
-    "You can use whatever command you like.\n" +
+    "You can read more about the page here: https://command-line.online/about.html\n" +
     "But you need to solve the problem with a SINGLE line of bash.\n" +
     "Each question can be solved by submitting a command or a combination of commands.\n" +
     "You can clear the terminal by typing " + apply_color('clear', "blue") + ".\n" +
@@ -434,7 +434,11 @@ class CommandlineEngine {
                 this.echo("You might take a look at this resource: " + apply_color(external_link, "blue", TEXT_GLOW + TEXT_UNDERLINE + TEXT_ITALIC));
             }
             return true;
+        } else if (command.trim() === 'about') {
+            window.location.href = "/about.html";
+            return true;
         }
+        return false;
     }
 
 
