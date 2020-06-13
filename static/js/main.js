@@ -596,10 +596,6 @@ function init_terminal(terminalEngine) {
         onAfterCommand: show_challenge_description // onClear does not work for some weird reason ¯\_(ツ)_/¯
     });
 
-    $(document).on('click', '#terminal', function () {
-        $.terminal.active();
-    })
-
     terminalEngine.ready(); // finish the init process and display the first challenge
 }
 
