@@ -595,22 +595,29 @@ function init_terminal(terminalEngine) {
         completion: terminal_config.TAB_COMPLETION, // add tab completion
         onAfterCommand: show_challenge_description // onClear does not work for some weird reason ¯\_(ツ)_/¯
     });
+
+    $(document).on('click', '#terminal', function () {
+        $.terminal.active();
+    })
+
     terminalEngine.ready(); // finish the init process and display the first challenge
 }
 
 /* SETUP */
-$(async function () {
-    try {
-        const challenges = await get_challenges();
-        const terminalEngine = new CommandlineEngine(challenges);
-        await terminalEngine.init();
-        // only init the terminal if all setup function succeeded
-        init_terminal(terminalEngine);
-    } catch (e) {
-        console.error("Could not create a new terminal game, because " + e);
-        $('#error').toggle('hidden', false);
-        throw e;
+jQuery(document).ready(
+    async function () {
+        try {
+            const challenges = await get_challenges();
+            const terminalEngine = new CommandlineEngine(challenges);
+            await terminalEngine.init();
+            // only init the terminal if all setup function succeeded
+            init_terminal(terminalEngine);
+        } catch (e) {
+            console.error("Could not create a new terminal game, because " + e);
+            $('#error').toggle('hidden', false);
+            throw e;
+        }
     }
-});
+);
 
 
