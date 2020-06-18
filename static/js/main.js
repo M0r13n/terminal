@@ -1,20 +1,15 @@
 /* Config */
 const WELCOME_GREETING = "Welcome to WebShell.😀\n" +
-    "This is a web application that asks you to solve some problems by using the commandline.\n" +
-    "You can read more about the page here: https://command-line.online/about.html\n" +
-    "But you need to solve the problem with a SINGLE line of bash.\n" +
-    "Each question can be solved by submitting a command or a combination of commands.\n\n\n" +
+    "You need to solve the following questions with a " + apply_color("SINGLE", "red", "gu") + " line of bash.\n\n" +
     "You can clear the terminal by typing " + apply_color('clear', "blue") + ".\n" +
-    "You can go to the about page by typing " + apply_color('about', "blue") + "\n" +
+    "You can go to the about page by typing " + apply_color('about', "blue") + ".\n" +
     "If you find a bug you can type " + apply_color('bug', "blue") + " and submit a bug report!\n" +
-    "If you need help, you can type " + apply_color('help', "blue") + " and you will receive a hint and a link to some useful resource.\n\n" +
-    "Question are displayed in gray, with an leading '#'. E.g.:\n" +
-    apply_color("# List all .txt files", "gray") + "\n" +
-    "You can start hacking right now! Good luck!\n";
+    "If you need help, you can type " + apply_color('help', "blue") + ".\n\n" +
+    apply_color("Good luck!\n", "green", "gbu");
 
 const WELCOME_BACK_GREETING = "Welcome back to WebShell.😀\n" +
-    "You can continue right where you left off!\n" +
-    "Remember: If you need help, you can type 'help' and you will receive a hint and a link to some useful resource.\n";
+    "You can continue right where you left off!\n\n" +
+    "Remember: If you need help, you can type " + apply_color("help", "blue", "u") + ".\n";
 
 const terminal_config = {
     TAB_COMPLETION: ["find", "echo", "awk", "sed", "wc", "grep", "cat", "sort", "cut", "ls", "rm", "less", "head", "tail"],
