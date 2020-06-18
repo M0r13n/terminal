@@ -5,7 +5,7 @@ const WELCOME_GREETING = "Welcome to WebShell.😀\n" +
     "But you need to solve the problem with a SINGLE line of bash.\n" +
     "Each question can be solved by submitting a command or a combination of commands.\n\n\n" +
     "You can clear the terminal by typing " + apply_color('clear', "blue") + ".\n" +
-    "You can go to the about page by typing" + apply_color('about', "blue") + "\n" +
+    "You can go to the about page by typing " + apply_color('about', "blue") + "\n" +
     "If you find a bug you can type " + apply_color('bug', "blue") + " and submit a bug report!\n" +
     "If you need help, you can type " + apply_color('help', "blue") + " and you will receive a hint and a link to some useful resource.\n\n" +
     "Question are displayed in gray, with an leading '#'. E.g.:\n" +
@@ -190,6 +190,7 @@ class Badge {
     }
 
     static enable_badges() {
+        // remove disabled attr
         document.getElementById(Badge.CONTAINER_ID).classList.toggle("disabled", false);
     }
 
@@ -226,6 +227,7 @@ class Badge {
             return;
         }
         this.active_svg.classList.toggle("disabled", false);
+        this.active_svg.classList.add("unlocked");
         this.inactive_svg.classList.toggle("disabled", true);
         this.enabled = true;
     }
@@ -458,7 +460,9 @@ class CommandlineEngine {
      * Echo some message to the terminal instance (formatted in grey)
      */
     echo(msg) {
-        this.terminal.echo(apply_color(msg, "gray"));
+        if (this.terminal) {
+            this.terminal.echo(apply_color(msg, "gray"));
+        }
     }
 
     /**
@@ -500,7 +504,7 @@ class CommandlineEngine {
         }
         if (result.success) {
             // if the command was solved correctly load the the next challenge
-            this.terminal.clear();
+            //this.terminal.clear();
             this.load_next_challenge();
             this.update();
         }
@@ -518,7 +522,7 @@ class CommandlineEngine {
             if (badges.indexOf(badge.id) > -1) {
                 if (!badge.enabled) {
                     badge.enable();
-                    this.echo(apply_color(`🎉You earned the ${badge.name} badge🎉`, 'green', TEXT_BOLD + TEXT_UNDERLINE));
+                    this.echo(apply_color(`\n🎉You earned the ${badge.name} badge🎉`, 'green', TEXT_BOLD + TEXT_UNDERLINE));
                 }
             }
         });
@@ -546,7 +550,7 @@ class CommandlineEngine {
      * Load the next challenge. If there are no challenges handle the win.
      */
     load_next_challenge() {
-        this.success("Good JOB! You solved the question\n\n", "green");
+        this.success("\nGood JOB! You solved the question\n\n", "green");
         if (this.challenges.has_next_challenge()) {
             const challenge = this.challenges.next();
             this.display_challenge_description();
