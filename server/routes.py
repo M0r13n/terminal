@@ -6,6 +6,7 @@ from sqlalchemy.exc import StatementError
 from server.challenges import execute_command
 from server.common import get_user, log_command
 from server.extensions import db
+from server.forms import DemographyForm
 from server.models import User, Badge, Challenge, FinalFeedback
 from server.parse import is_valid_request_body, parse_request
 
@@ -32,10 +33,18 @@ def run_command():
     return jsonify(dict(success=False, error=error_msg)), 400
 
 
-@routes.route('/session/new', methods=['GET'])
-def get_settings():
-    user = User.create_user()
-    return jsonify(user.to_dict())
+@routes.route('/session/new', methods=['POST'])
+def new_session():
+    """ The user only gets a UUID, if he or she submits the survey """
+    form = DemographyForm()
+    if form.validate_on_submit():
+        user = User.create_user()
+        form.populate_user(user)
+        user.save()
+        return jsonify(user.to_dict()), 201
+    # send errors
+    errors = form.get_errors()
+    return jsonify(dict(errors=errors)), 400
 
 
 @routes.route('/challenge/list', methods=['GET'])

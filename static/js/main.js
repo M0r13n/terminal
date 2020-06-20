@@ -4,12 +4,7 @@ const WELCOME_GREETING = "Welcome to WebShell.😀\n" +
     "You can clear the terminal by typing " + apply_color('clear', "blue") + ".\n" +
     "You can go to the about page by typing " + apply_color('about', "blue") + ".\n" +
     "If you find a bug you can type " + apply_color('bug', "blue") + " and submit a bug report!\n" +
-    "If you need help, you can type " + apply_color('help', "blue") + ".\n\n" +
-    apply_color("Good luck!\n", "green", "gbu");
-
-const WELCOME_BACK_GREETING = "Welcome back to WebShell.😀\n" +
-    "You can continue right where you left off!\n\n" +
-    "Remember: If you need help, you can type " + apply_color("help", "blue", "u") + ".\n";
+    "If you need help, you can type " + apply_color('help', "blue") + ".\n";
 
 const terminal_config = {
     TAB_COMPLETION: ["find", "echo", "awk", "sed", "wc", "grep", "cat", "sort", "cut", "ls", "rm", "less", "head", "tail"],
@@ -88,9 +83,51 @@ function create_img(id, alt, src, classList, description = '') {
     return img;
 }
 
+/* Setup Jquery Terminal */
+function init_terminal(terminalEngine) {
+    function show_challenge_description(command, term) {
+        if (command === "clear") {
+            // display the current challenge after each clear command
+            if (terminalEngine.challenges.current_challenge) {
+                term.echo(apply_color(format_description(terminalEngine.challenges.current_challenge.description), "grey"));
+            }
+        }
+    }
+
+    // Setup function for jQuery-Terminal
+    terminalEngine.terminal = $('#terminal').terminal(async (command, term) => {
+        term.pause();
+        // handle entered commands
+        if (command.length) {
+            await terminalEngine.handle_submit(command, term);
+        }
+        term.resume();
+    }, {
+        inputStyle: 'contenteditable',
+        exceptionHandler: function (e, label) {
+            if (typeof window.flush == 'undefined') {
+                window.flush = 0;
+            }
+            if (flush++ <= 1) {
+                $('<pre>' + e.message + "\n" + e.stack + '</pre>').appendTo('body');
+            }
+        },
+        greetings: terminal_config.GREETINGS, // displays a fixed greeting at the top of the terminal
+        convertLinks: true,
+        name: terminal_config.NAME,
+        prompt: (callback_f) => {
+            // custom prompt function (>>>)
+            callback_f(apply_color(">>> ", "green"));
+        },
+        completion: terminal_config.TAB_COMPLETION, // add tab completion
+        onAfterCommand: show_challenge_description // onClear does not work for some weird reason ¯\_(ツ)_/¯
+    });
+
+    terminalEngine.ready(); // finish the init process and display the first challenge
+}
+
 
 /* Classes */
-
 class Command {
     constructor(command, challenge) {
         this.command = command;
@@ -115,7 +152,6 @@ class Command {
 
     }
 }
-
 class ChallengeIterator {
     /**
      * Custom iterator-like object that makes it much easier to keep track of all challenges and their current state.
@@ -152,7 +188,6 @@ class ChallengeIterator {
 
 
 }
-
 class Badge {
 
     static async fetch_badges() {
@@ -232,7 +267,6 @@ class Badge {
         this.inactive_svg.classList.toggle("disabled", false);
     }
 }
-
 class Progressbar {
 
 
@@ -280,8 +314,6 @@ class Progressbar {
         this.span.style.width = this.percentage_string;
     }
 }
-
-
 class CommandlineEngine {
     /**
      * Terminal engine.
@@ -320,7 +352,6 @@ class CommandlineEngine {
                 this.set_badges_active(state.badges);
             }
             console.log("Successfully restored user: " + uuid);
-            terminal_config.GREETINGS = WELCOME_BACK_GREETING;
         } catch (e) {
             console.error(e);
             this.uuid = null;
@@ -354,17 +385,21 @@ class CommandlineEngine {
 
     async init() {
         const uuid = localStorage.getItem('uuid');
-        if (uuid) {
-            await this.restore(uuid);
+        if (!uuid){
+            console.log("Found new user.");
+            this.display_survey();
+            return;
         }
-        if (!this.uuid) {
-            console.log("No existing session found. Creating new one...");
-            await this.create_session();
-            await this.load_resources();
-            // set this id to later remember the user
-            localStorage.setItem('uuid', this.uuid);
+
+        // ask server is user exists?
+        await this.restore(uuid);
+        if (!this.uuid){
+            console.log("Invalid user.");
+            this.display_survey();
+            return;
         }
-        this.update();
+        // The user is valid, so we can load the terminal
+        init_terminal(this);
     }
 
     async load_resources() {
@@ -373,25 +408,6 @@ class CommandlineEngine {
         } else if (this.mode === "PROGRESSBAR") {
             this.progressbar = new Progressbar();
         }
-    }
-
-    /**
-     * Create a new session and get settings fot this session from server.
-     */
-    async create_session() {
-        const settings = await this.register();
-        this.uuid = settings.uuid;
-        this.mode = settings.mode;
-    }
-
-    /**
-     * Ask the server for game data.
-     * Expects a response like: {"uuid": 1234, "mode":"BADGE"}
-     */
-    async register() {
-        const url = server_config.API_URL + "session/new";
-        const response = await this.http_get(url);
-        return await response.json();
     }
 
     /**
@@ -442,7 +458,6 @@ class CommandlineEngine {
         }
         return false;
     }
-
 
     /**
      * The function should be called once the the initialization is completed
@@ -545,7 +560,7 @@ class CommandlineEngine {
      * Load the next challenge. If there are no challenges handle the win.
      */
     load_next_challenge() {
-        this.success("\nGood JOB! You solved the question\n\n", "green");
+        this.success("Good JOB! You solved the question\n", "green");
         if (this.challenges.has_next_challenge()) {
             const challenge = this.challenges.next();
             this.display_challenge_description();
@@ -554,49 +569,15 @@ class CommandlineEngine {
         }
     }
 
-}
-
-function init_terminal(terminalEngine) {
-    function show_challenge_description(command, term) {
-        if (command === "clear") {
-            // display the current challenge after each clear command
-            if (terminalEngine.challenges.current_challenge) {
-                term.echo(apply_color(format_description(terminalEngine.challenges.current_challenge.description), "grey"));
-            }
-        }
+    /**
+     * Toggle disabled class and show first survey redirect message.
+     */
+    display_survey() {
+        $('#surveyContainer').toggleClass('disabled', false);
     }
 
-    // Setup function for jQuery-Terminal
-    terminalEngine.terminal = $('#terminal').terminal(async (command, term) => {
-        term.pause();
-        // handle entered commands
-        if (command.length) {
-            await terminalEngine.handle_submit(command, term);
-        }
-        term.resume();
-    }, {
-        inputStyle: 'contenteditable',
-        exceptionHandler: function (e, label) {
-            if (typeof window.flush == 'undefined') {
-                window.flush = 0;
-            }
-            if (flush++ <= 1) {
-                $('<pre>' + e.message + "\n" + e.stack + '</pre>').appendTo('body');
-            }
-        },
-        greetings: terminal_config.GREETINGS, // displays a fixed greeting at the top of the terminal
-        convertLinks: true,
-        name: terminal_config.NAME,
-        prompt: (callback_f) => {
-            // custom prompt function (>>>)
-            callback_f(apply_color(">>> ", "green"));
-        },
-        completion: terminal_config.TAB_COMPLETION, // add tab completion
-        onAfterCommand: show_challenge_description // onClear does not work for some weird reason ¯\_(ツ)_/¯
-    });
-
-    terminalEngine.ready(); // finish the init process and display the first challenge
 }
+
 
 /* SETUP */
 jQuery(document).ready(
@@ -605,8 +586,6 @@ jQuery(document).ready(
             const challenges = await get_challenges();
             const terminalEngine = new CommandlineEngine(challenges);
             await terminalEngine.init();
-            // only init the terminal if all setup function succeeded
-            init_terminal(terminalEngine);
         } catch (e) {
             console.error("Could not create a new terminal game, because " + e);
             $('#error').toggle('hidden', false);

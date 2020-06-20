@@ -1,14 +1,12 @@
 /* Base */
 
 body {
-    margin: 0;
-    position: relative;
+    margin: 0 auto;
+    width: 100%;
     color: white;
     background-color: black;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-
 }
-
 
 main {
     height: 100%;
@@ -16,13 +14,15 @@ main {
     margin: 25px;
 }
 
+.error {
+    color: red !important;
+}
 
 /* Terminal */
 .terminal {
     position: relative;
-    height: 100%;
-    overflow: hidden;
-    --size: 1.75;
+    height: 90vh;
+    --size: 1.10;
 }
 
 .terminal::before {
@@ -172,12 +172,26 @@ textarea[readonly] {
 
 label {
     font-weight: bold;
-    margin-bottom: 0.2rem;
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
 }
+
+input {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin: 0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
+
 
 /* Buttons + Glowing Buttons */
 button {
-    margin: 0 5px;
+    margin: 25px;
     padding: 10px;
     letter-spacing: 1px;
     background: none;
@@ -255,6 +269,19 @@ img {
     margin-right: 3px;
     padding: 7px;
     border-radius: 8px;
+}
+
+@media (min-width: 780px) {
+    .terminal {
+        --size: 1.75;
+    }
+}
+
+@media (max-width: 370px) {
+   img {
+    height: 35px;
+    width: 35px;
+}
 }
 
 img.unlocked {

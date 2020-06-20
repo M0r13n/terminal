@@ -17,7 +17,8 @@ create-server:
 minify-js:
 	curl -X POST -s --data-urlencode 'input@static/js/main.js' https://javascript-minifier.com/raw > static/js/main.min.js && \
 	curl -X POST -s --data-urlencode 'input@static/js/report.js' https://javascript-minifier.com/raw > static/js/report.min.js && \
-	curl -X POST -s --data-urlencode 'input@static/js/feedback.js' https://javascript-minifier.com/raw > static/js/feedback.min.js
+	curl -X POST -s --data-urlencode 'input@static/js/feedback.js' https://javascript-minifier.com/raw > static/js/feedback.min.js && \
+	curl -X POST -s --data-urlencode 'input@static/js/survey.js' https://javascript-minifier.com/raw > static/js/survey.min.js
 
 minify-css:
 	curl -X POST -s --data-urlencode 'input@static/css/main.css' https://cssminifier.com/raw > static/css/main.min.css

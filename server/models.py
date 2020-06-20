@@ -97,6 +97,12 @@ class User(db.Model, CRUDMixin):
     last_seen = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
     mode = db.Column(db.Enum(GameModes), nullable=False)
 
+    # demographics
+    age = db.Column(db.String(255))
+    gender = db.Column(db.String(255))
+    english_skills = db.Column(db.String(255))
+    bash_experience = db.Column(db.String(255))
+
     # Relations
     commands = relationship("SubmittedCommand", back_populates="user")
     badges = relationship(
