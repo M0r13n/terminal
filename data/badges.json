@@ -1,31 +1,31 @@
 {
   "starter_badge": {
     "name": "Beginner's luck",
-    "src_filename": "medal_a",
+    "src_filename": "goal.svg",
     "description": "Earn this badge by solving the first problem.",
     "condition": "SOLVED_FIRST_CHALLENGE"
   },
   "expert_badge": {
     "name": "A true expert",
-    "src_filename": "medal_b",
+    "src_filename": "goal_reached.svg",
     "description": "Earn this badge by solving all problems.",
     "condition": "ALL_SOLVED"
   },
   "no_problem": {
     "name": "Commandline hero",
-    "src_filename": "medal_c",
+    "src_filename": "target.svg",
     "description": "Earn this badge by finding the hidden secret.",
     "condition": "SOLVED_12"
   },
   "bad_luck": {
     "name": "I try every command possible",
-    "src_filename": "medal_d",
+    "src_filename": "win.svg",
     "description": "Earn this badge by answering wrong ten times.",
     "condition": "WRONG_10_TIMES"
   },
   "combination_boss": {
     "name": "Chaining is Gaining",
-    "src_filename": "medal_e",
+    "src_filename": "solutions.svg",
     "description": "Earn this badge by solving a problem by chaining at least three (three) commands together.",
     "condition": "CHAIN_3_TOGETHER"
   }

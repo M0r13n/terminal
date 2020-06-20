@@ -129,7 +129,7 @@ class User(db.Model, CRUDMixin):
     def create_user(cls):
         return cls.create(
             uuid=str(uuid4()),
-            mode=choice(list(GameModes))
+            mode=GameModes.BADGE or choice(list(GameModes))
         )
 
     def add_new_badges(self, applicable_badges: typing.Set):

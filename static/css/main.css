@@ -271,6 +271,12 @@ img {
     border-radius: 8px;
 }
 
+img.locked {
+    filter: gray;
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+}
+
 @media (min-width: 780px) {
     .terminal {
         --size: 1.75;
@@ -278,10 +284,10 @@ img {
 }
 
 @media (max-width: 370px) {
-   img {
-    height: 35px;
-    width: 35px;
-}
+    img {
+        height: 35px;
+        width: 35px;
+    }
 }
 
 img.unlocked {

@@ -11,7 +11,7 @@ logger.debug(volume_dir)
 
 class DockerConfig(object):
     # You are most likely not going to change these
-    MEM_LIMIT = "50mb"
+    MEM_LIMIT = "100mb"
     NETWORK_MODE = None
     NETWORK_DISABLED = True
     REMOVE = False

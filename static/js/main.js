@@ -213,7 +213,6 @@ class Badge {
         this.description = description;
         this.src_filename = src_filename;
         this.active_svg = null;
-        this.inactive_svg = null;
         this.enabled = false;
         this.init();
         Badge.enable_badges()
@@ -233,23 +232,17 @@ class Badge {
     }
 
     get active_src() {
-        return "svg/" + this.src_filename + "_green.svg";
-    }
-
-    get inactive_src() {
-        return "svg/" + this.src_filename + "_gray.svg";
+        return "svg/" + this.src_filename;
     }
 
     /**
      * Adds two images:
      *      <img src="svg/medal_a_gray.svg" alt="medal badge" id="badge-a-disabled">
-     *      <img class="disabled" src="svg/medal_a_green.svg" alt="medal badge" id="badge-a-enabled">
      */
     add_svgs() {
-        this.inactive_svg = create_img(this.name + "-disabled", "medal badge", this.inactive_src, [], this.description);
-        this.active_svg = create_img(this.name + "-enabled", "medal badge", this.active_src, ["disabled"], this.description);
+        this.active_svg = create_img(this.name + "-enabled", "medal badge", this.active_src, ["locked"], this.description);
         const containerElement = document.getElementById("badgeContainer");
-        containerElement.append(this.active_svg, this.inactive_svg)
+        containerElement.append(this.active_svg)
     }
 
     enable() {
@@ -257,14 +250,13 @@ class Badge {
             return;
         }
         this.active_svg.classList.toggle("disabled", false);
+        this.active_svg.classList.toggle("locked", false);
         this.active_svg.classList.add("unlocked");
-        this.inactive_svg.classList.toggle("disabled", true);
         this.enabled = true;
     }
 
     disable() {
         this.active_svg.classList.toggle("disabled", true);
-        this.inactive_svg.classList.toggle("disabled", false);
     }
 }
 class Progressbar {
