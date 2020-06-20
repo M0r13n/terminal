@@ -5,6 +5,7 @@ docker==4.2.0
 Python-Dotenv~=0.13.0
 Flask==1.1.2
 Flask-Cors
+Flask-WTF
 Flask_Sqlalchemy
 idna==2.9
 itsdangerous==1.1.0
