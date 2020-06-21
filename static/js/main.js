@@ -13,8 +13,8 @@ const terminal_config = {
 }
 
 const server_config = {
-    //API_URL: "https://api.command-line.online/",
-    API_URL: "http://localhost:5000/",
+    API_URL: "https://api.command-line.online/",
+    //API_URL: "http://localhost:5000/",
 }
 
 /* Supported Text effects and style options for apply_color function */
