@@ -94,7 +94,6 @@ class User(db.Model, CRUDMixin):
 
     uuid = db.Column(db.String(255), primary_key=True)
     first_seen = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
-    last_seen = db.Column(db.DateTime, nullable=False, default=datetime.datetime.now)
     mode = db.Column(db.Enum(GameModes), nullable=False)
 
     # demographics
@@ -124,6 +123,13 @@ class User(db.Model, CRUDMixin):
     @property
     def wrong_command_count(self):
         return SubmittedCommand.query.filter(SubmittedCommand.user_uuid == self.uuid, SubmittedCommand.solved_challenge == False).count()
+
+    @property
+    def last_seen(self):
+        try:
+            return SubmittedCommand.query.filter(SubmittedCommand.user_uuid == self.uuid).order_by(SubmittedCommand.time_submitted.desc()).first().time_submitted
+        except AttributeError:
+            return self.first_seen
 
     @classmethod
     def create_user(cls):

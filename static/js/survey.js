@@ -2,7 +2,7 @@ function displayErrors(fieldName, errors){
     $(`#${fieldName}`).text(errors[0]);
 }
 $(document).ready(function () {
-    const url = "https://api.command-line.online/session/new";
+    const url = "http://localhost:5000/session/new";
     $("#demographyForm").submit(function (event) {
         event.preventDefault();
 
