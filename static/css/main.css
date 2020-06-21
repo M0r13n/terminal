@@ -39,6 +39,12 @@ main {
     pointer-events: none;
 }
 
+.cmd-clipboard {
+    width: 100%!important;
+}
+
+/* General styles */
+
 
 h1 {
     text-align: center;
