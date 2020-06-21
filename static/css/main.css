@@ -1,8 +1,6 @@
 /* Base */
 
 body {
-    position: absolute;
-    height: 100%;
     margin: 0 auto;
     width: 100%;
     color: white;
@@ -42,7 +40,7 @@ main {
 }
 
 .cmd-clipboard {
-    width: 100% !important;
+    width: 100%!important;
 }
 
 /* General styles */

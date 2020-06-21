@@ -115,7 +115,6 @@ function init_terminal(terminalEngine) {
         greetings: terminal_config.GREETINGS, // displays a fixed greeting at the top of the terminal
         convertLinks: true,
         name: terminal_config.NAME,
-        scrollOnEcho: true,
         prompt: (callback_f) => {
             // custom prompt function (>>>)
             callback_f(apply_color(">>> ", "green"));
@@ -153,7 +152,6 @@ class Command {
 
     }
 }
-
 class ChallengeIterator {
     /**
      * Custom iterator-like object that makes it much easier to keep track of all challenges and their current state.
@@ -190,7 +188,6 @@ class ChallengeIterator {
 
 
 }
-
 class Badge {
 
     static async fetch_badges() {
@@ -262,7 +259,6 @@ class Badge {
         this.active_svg.classList.toggle("disabled", true);
     }
 }
-
 class Progressbar {
 
 
@@ -310,7 +306,6 @@ class Progressbar {
         this.span.style.width = this.percentage_string;
     }
 }
-
 class CommandlineEngine {
     /**
      * Terminal engine.
@@ -382,7 +377,7 @@ class CommandlineEngine {
 
     async init() {
         const uuid = localStorage.getItem('uuid');
-        if (!uuid) {
+        if (!uuid){
             console.log("Found new user.");
             this.display_survey();
             return;
@@ -390,7 +385,7 @@ class CommandlineEngine {
 
         // ask server is user exists?
         await this.restore(uuid);
-        if (!this.uuid) {
+        if (!this.uuid){
             console.log("Invalid user.");
             this.display_survey();
             return;
