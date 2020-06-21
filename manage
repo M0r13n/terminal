@@ -89,9 +89,8 @@ from server.models import *
 import pprint
 
 
-def for_each_group(func_to_call, query=None, *args, **kwargs):
-    if query is None:
-        query = User.query
+def for_each_group(func_to_call,  *args, **kwargs):
+    query = User.query
     total = func_to_call(query, *args, **kwargs)
     cg = func_to_call(query.filter(User.mode == GameModes.ControlGroup), *args, **kwargs)
     bg = func_to_call(query.filter(User.mode == GameModes.BADGE), *args, **kwargs)
