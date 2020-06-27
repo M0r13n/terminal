@@ -3,12 +3,12 @@ const WELCOME_GREETING = "Welcome to WebShell.😀\n" +
     "You need to solve the following questions with a " + apply_color("SINGLE", "red", "gu") + " line of bash.\n\n" +
     "You can clear the terminal by typing " + apply_color('clear', "blue") + ".\n" +
     "You can go to the about page by typing " + apply_color('about', "blue") + ".\n" +
-    "If you find a bug you can type " + apply_color('bug', "blue") + " and submit a bug report!\n" +
+    "Submit a bug report by typing " + apply_color('bug', "blue") + "\n" +
     "If you need help, you can type " + apply_color('help', "blue") + ".\n";
 
 const terminal_config = {
     TAB_COMPLETION: ["find", "echo", "awk", "sed", "wc", "grep", "cat", "sort", "cut", "ls", "rm", "less", "head", "tail"],
-    GREETINGS: WELCOME_GREETING,
+    GREETINGS: "",
     NAME: "Webshell",
 }
 
@@ -89,7 +89,7 @@ function init_terminal(terminalEngine) {
         if (command === "clear") {
             // display the current challenge after each clear command
             if (terminalEngine.challenges.current_challenge) {
-                term.echo(apply_color(format_description(terminalEngine.challenges.current_challenge.description), "grey"));
+                term.echo(apply_color(format_description(terminalEngine.challenges.current_challenge.description), "grey"), {keepWords: true});
             }
         }
     }
@@ -112,7 +112,7 @@ function init_terminal(terminalEngine) {
                 $('<pre>' + e.message + "\n" + e.stack + '</pre>').appendTo('body');
             }
         },
-        greetings: terminal_config.GREETINGS, // displays a fixed greeting at the top of the terminal
+        greetings: terminal_config.GREETINGS,
         convertLinks: true,
         name: terminal_config.NAME,
         prompt: (callback_f) => {
@@ -120,9 +120,11 @@ function init_terminal(terminalEngine) {
             callback_f(apply_color(">>> ", "green"));
         },
         completion: terminal_config.TAB_COMPLETION, // add tab completion
-        onAfterCommand: show_challenge_description // onClear does not work for some weird reason ¯\_(ツ)_/¯
+        onAfterCommand: show_challenge_description, // onClear does not work for some weird reason ¯\_(ツ)_/¯
+        onInit: (term) => {
+            term.echo(WELCOME_GREETING, {keepWords: true})
+        }
     });
-
     terminalEngine.ready(); // finish the init process and display the first challenge
 }
 
@@ -152,6 +154,7 @@ class Command {
 
     }
 }
+
 class ChallengeIterator {
     /**
      * Custom iterator-like object that makes it much easier to keep track of all challenges and their current state.
@@ -188,6 +191,7 @@ class ChallengeIterator {
 
 
 }
+
 class Badge {
 
     static async fetch_badges() {
@@ -259,6 +263,7 @@ class Badge {
         this.active_svg.classList.toggle("disabled", true);
     }
 }
+
 class Progressbar {
 
 
@@ -306,6 +311,7 @@ class Progressbar {
         this.span.style.width = this.percentage_string;
     }
 }
+
 class CommandlineEngine {
     /**
      * Terminal engine.
@@ -377,7 +383,7 @@ class CommandlineEngine {
 
     async init() {
         const uuid = localStorage.getItem('uuid');
-        if (!uuid){
+        if (!uuid) {
             console.log("Found new user.");
             this.display_survey();
             return;
@@ -385,7 +391,7 @@ class CommandlineEngine {
 
         // ask server is user exists?
         await this.restore(uuid);
-        if (!this.uuid){
+        if (!this.uuid) {
             console.log("Invalid user.");
             this.display_survey();
             return;
@@ -463,7 +469,7 @@ class CommandlineEngine {
      */
     echo(msg) {
         if (this.terminal) {
-            this.terminal.echo(apply_color(msg, "gray"));
+            this.terminal.echo(apply_color(msg, "gray"), {keepWords: true});
         }
     }
 
@@ -582,6 +588,14 @@ jQuery(document).ready(
             console.error("Could not create a new terminal game, because " + e);
             $('#error').toggle('hidden', false);
             throw e;
+        }
+
+        if ('ontouchstart' in window) {
+            $(document).on('focus', 'textarea,input,select', function () {
+                $('.navbar.navbar-fixed-top').css('position', 'absolute');
+            }).on('blur', 'textarea,input,select', function () {
+                $('.navbar.navbar-fixed-top').css('position', '');
+            });
         }
     }
 );
