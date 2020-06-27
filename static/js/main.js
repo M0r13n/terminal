@@ -317,6 +317,7 @@ class CommandlineEngine {
         this.mode = null;
         this.badges = null;
         this.progressbar = null;
+        this.wrong_command_count = 0;
     }
 
     /**
@@ -503,6 +504,8 @@ class CommandlineEngine {
         this.echo(result.output.replace(/\n+$/, ""));
         if (result.success) {
             this.terminal.clear();
+        } else {
+            this.wrong_command_count++;
         }
         if (result.badges) {
             this.set_badges_active(result.badges);
@@ -511,6 +514,14 @@ class CommandlineEngine {
             // if the command was solved correctly load the the next challenge
             this.load_next_challenge();
             this.update();
+        }
+        this.remember_help();
+    }
+
+    remember_help() {
+        if (this.wrong_command_count > 5) {
+            this.echo("\nRemember that you can type 'help' to get help.");
+            this.wrong_command_count = 0;
         }
     }
 
