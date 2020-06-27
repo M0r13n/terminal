@@ -1,12 +1,12 @@
 /* Base */
-html, body {
-    height: 100%;
-    margin: 0;
-    overflow: hidden
+body {
+    height: 99%;
+    margin:auto;
+    /*overflow: hidden*/
 }
 
 body {
-    margin: 0 auto;
+    margin: 0;
     width: 100%;
     color: white;
     background-color: black;
@@ -25,11 +25,6 @@ main {
 
 .clear {
     clear: both;
-}
-
-textarea {
-    position: absolute;
-    clip: rect(0, 0, 0, 0);
 }
 
 

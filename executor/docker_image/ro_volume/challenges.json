@@ -38,7 +38,7 @@
     "identifier": "04_create_index_html",
     "name": "Create index.html .",
     "dir": "04_create_index_html",
-    "description": "Our new website needs to be developed. Create the initial index.html file inside the html folder.",
+    "description": "Create a file named 'index.html' inside the 'html' folder.",
     "solution": "touch index.html",
     "expected_output": "",
     "target_file": "./html/index.html",

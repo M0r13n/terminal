@@ -103,15 +103,8 @@ function init_terminal(terminalEngine) {
         }
         term.resume();
     }, {
+        mobileDelete: true,
         inputStyle: 'contenteditable',
-        exceptionHandler: function (e, label) {
-            if (typeof window.flush == 'undefined') {
-                window.flush = 0;
-            }
-            if (flush++ <= 1) {
-                $('<pre>' + e.message + "\n" + e.stack + '</pre>').appendTo('body');
-            }
-        },
         greetings: terminal_config.GREETINGS,
         convertLinks: true,
         name: terminal_config.NAME,
@@ -123,7 +116,7 @@ function init_terminal(terminalEngine) {
         onAfterCommand: show_challenge_description, // onClear does not work for some weird reason ¯\_(ツ)_/¯
         onInit: (term) => {
             term.echo(WELCOME_GREETING, {keepWords: true})
-        }
+        },
     });
     terminalEngine.ready(); // finish the init process and display the first challenge
 }
@@ -349,6 +342,7 @@ class CommandlineEngine {
             if (this.mode === "BADGE") {
                 this.set_badges_active(state.badges);
             }
+            this.update();
             console.log("Successfully restored user: " + uuid);
         } catch (e) {
             console.error(e);
@@ -469,7 +463,7 @@ class CommandlineEngine {
      */
     echo(msg) {
         if (this.terminal) {
-            this.terminal.echo(apply_color(msg, "gray"), {keepWords: true});
+            this.terminal.echo(apply_color(msg, "gray"), {keepWords: false});
         }
     }
 
@@ -494,8 +488,8 @@ class CommandlineEngine {
      */
     display_challenge_description() {
         if (this.challenges.current_challenge) {
-            const description = format_description(this.challenges.current_challenge.description);
-            this.echo(description);
+            const description = format_description(this.challenges.current_challenge.description).replace(/\n+$/, "");
+            this.echo(description + "\n");
         } else {
             this.handle_win();
         }
@@ -507,12 +501,14 @@ class CommandlineEngine {
     handle_command_result(result) {
         // echo the output of the command that was produced in the docker container
         this.echo(result.output.replace(/\n+$/, ""));
+        if (result.success) {
+            this.terminal.clear();
+        }
         if (result.badges) {
             this.set_badges_active(result.badges);
         }
         if (result.success) {
             // if the command was solved correctly load the the next challenge
-            //this.terminal.clear();
             this.load_next_challenge();
             this.update();
         }
@@ -588,14 +584,6 @@ jQuery(document).ready(
             console.error("Could not create a new terminal game, because " + e);
             $('#error').toggle('hidden', false);
             throw e;
-        }
-
-        if ('ontouchstart' in window) {
-            $(document).on('focus', 'textarea,input,select', function () {
-                $('.navbar.navbar-fixed-top').css('position', 'absolute');
-            }).on('blur', 'textarea,input,select', function () {
-                $('.navbar.navbar-fixed-top').css('position', '');
-            });
         }
     }
 );
