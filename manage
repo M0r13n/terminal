@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
-
+import csv
 import json
 import os
 
-import click
 from flask.cli import FlaskGroup
 from sqlalchemy.exc import IntegrityError, InvalidRequestError
 
 from executor.run_cmd import CommandExecutor
 from server.app import create_app
 from server.logging import setup_logger
+from server.models import *
 
 app = create_app()
 cli = FlaskGroup(create_app=create_app)
@@ -85,11 +85,7 @@ def test():
     print(output)
 
 
-from server.models import *
-import pprint
-
-
-def for_each_group(func_to_call,  *args, **kwargs):
+def for_each_group(func_to_call, *args, **kwargs):
     query = User.query
     total = func_to_call(query, *args, **kwargs)
     cg = func_to_call(query.filter(User.mode == GameModes.ControlGroup), *args, **kwargs)
@@ -103,52 +99,80 @@ def for_each_group(func_to_call,  *args, **kwargs):
     }
 
 
+def user_get_total_time_played(user: User, threshold=30 * 60):
+    commands = SubmittedCommand.query.filter(
+        SubmittedCommand.user_uuid == user.uuid
+    ).order_by(
+        SubmittedCommand.time_submitted.asc()
+    ).all()
+
+    total_time = 0
+    for i, command in enumerate(commands):
+        try:
+            next_c = commands[i + 1]
+        except IndexError:
+            continue
+        span = (next_c.time_submitted - command.time_submitted).seconds
+        if span < threshold:
+            total_time += span
+    return total_time
+
+
+def user_get_total_submissions(user: User):
+    return len(user.commands)
+
+
+def user_get_total_solved_challenges(user: User):
+    return SubmittedCommand.query.filter(SubmittedCommand.user_uuid == user.uuid, SubmittedCommand.solved_challenge == True).count()
+
+
+def user_get_total_wrong_challenges(user: User):
+    return SubmittedCommand.query.filter(SubmittedCommand.user_uuid == user.uuid, SubmittedCommand.solved_challenge == False).count()
+
+
 @cli.command()
-def total_time():
-    """ Get the total time spent for each group for each group"""
-    pp = pprint.PrettyPrinter(indent=4)
-    threshold = 1800
+def generate_report_csv():
+    """
+    Subject | Gender | Age | English Skills | Knowledge | Total Time played | Total Submissions  | Total solved Challenges | N wrong commands |
+    """
+    field_names = [
+        "Subject",
+        "Gender",
+        "Age",
+        "English Skills",
+        "Commandline usage",
+        "Total time played",
+        "Total Submissions",
+        "Total correct Submissions",
+        "Total wrong Submissions",
+    ]
 
-    def users_total_time(query, threshold=threshold):
-        # average time spent on solving the challenge per user
-        for user in query.all():
-            commands = SubmittedCommand.query.filter(
-                SubmittedCommand.user_uuid == user.uuid
-            ).order_by(
-                SubmittedCommand.time_submitted.asc()
-            ).all()
+    user_stats = []
+    for i, user in enumerate(User.query.all()):
+        user_total_time = user_get_total_time_played(user)
+        user_total_submissions = user_get_total_submissions(user)
+        user_total_solved_submissions = user_get_total_solved_challenges(user)
+        user_total_wrong_submissions = user_get_total_wrong_challenges(user)
+        user_stats.append([
+            i + 1,
+            user.gender,
+            user.age,
+            user.english_skills,
+            user.bash_experience,
+            user_total_time,
+            user_total_submissions,
+            user_total_solved_submissions,
+            user_total_wrong_submissions
+        ])
 
-            total_time = 0
-            for i, command in enumerate(commands):
-                try:
-                    next_c = commands[i + 1]
-                except IndexError:
-                    continue
-                span = (next_c.time_submitted - command.time_submitted).seconds
-                if span < threshold:
-                    total_time += span
-            return total_time
+    with open('report.csv', 'w') as report_file:
+        writer = csv.DictWriter(report_file, fieldnames=field_names)
+        writer.writeheader()
 
-    pp.pprint(for_each_group(users_total_time, threshold))
+        for line in user_stats:
+            writer.writerow(dict(zip(field_names, line)))
 
-
-@cli.command()
-@click.argument("correct",
-                required=False,
-                type=click.Choice(['correct', 'wrong']))
-def total_submissions(correct):
-    """ Total submissions for each group. Provide correct or wrong as argument to filter."""
-    pp = pprint.PrettyPrinter(indent=4)
-
-    def tot_subs(query):
-        if not correct:
-            return sum([len(user.commands) for user in query.all()])
-        elif correct == 'correct':
-            return sum([SubmittedCommand.query.filter(SubmittedCommand.user_uuid == user.uuid, SubmittedCommand.solved_challenge == True).count() for user in query.all()])
-        elif correct == 'wrong':
-            return sum([SubmittedCommand.query.filter(SubmittedCommand.user_uuid == user.uuid, SubmittedCommand.solved_challenge == False).count() for user in query.all()])
-
-    pp.pprint(for_each_group(tot_subs))
+        print(f"Exported {len(user_stats)} rows")
 
 
 if __name__ == "__main__":
