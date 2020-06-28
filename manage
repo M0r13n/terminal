@@ -140,6 +140,7 @@ def generate_report_csv():
         "Gender",
         "Age",
         "English Skills",
+        "Condition"
         "Commandline usage",
         "Total time played",
         "Total Submissions",
@@ -158,6 +159,7 @@ def generate_report_csv():
             user.gender,
             user.age,
             user.english_skills,
+            user.mode.value,
             user.bash_experience,
             user_total_time,
             user_total_submissions,
