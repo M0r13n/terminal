@@ -168,7 +168,7 @@ def generate_report_csv():
         ])
 
     with open('report.csv', 'w') as report_file:
-        writer = csv.DictWriter(report_file, fieldnames=field_names)
+        writer = csv.DictWriter(report_file, fieldnames=field_names, delimiter=";")
         writer.writeheader()
 
         for line in user_stats:
