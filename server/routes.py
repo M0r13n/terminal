@@ -45,7 +45,6 @@ def new_session():
             ip_addr=get_ip(request),
             user_agent=get_user_agent(request)
         )
-        logger.warning(request.headers, request.remote_addr, request.headers.getlist("X-Forwarded-For"))
         return jsonify(user.to_dict()), 201
     # send errors
     errors = form.get_errors()

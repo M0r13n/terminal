@@ -27,7 +27,7 @@ def log_command(user: User, command: str, challenge: str, result: dict) -> None:
 
 
 def get_ip(request_obj: Request) -> str:
-    if 'X-Forwarded-For' in request_obj.headers:
+    if 'X-Real-Ip' in request_obj.headers:
         remote_addr = request_obj.headers.getlist("X-Forwarded-For")[0].rpartition(' ')[-1]
     else:
         remote_addr = request_obj.remote_addr or 'untrackable'
