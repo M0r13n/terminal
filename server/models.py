@@ -165,7 +165,7 @@ class User(db.Model, CRUDMixin):
 
     def set_identifier(self, ip_addr: str, user_agent: str):
         # does it exist?
-        identifier = UserIdentifier.query(
+        identifier = UserIdentifier.query.filter(
             UserIdentifier.ip_addr == ip_addr,
             UserIdentifier.user_agent == user_agent
         ).first()
