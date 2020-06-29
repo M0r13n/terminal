@@ -137,6 +137,8 @@ def generate_report_csv():
     """
     field_names = [
         "Subject",
+        "User Agent(s)",
+        "Remote IP Addr(s)",
         "Gender",
         "Age",
         "English Skills",
@@ -150,12 +152,16 @@ def generate_report_csv():
 
     user_stats = []
     for i, user in enumerate(User.query.all()):
+        user_agents = ",".join([uid.user_agent for uid in user.user_identifiers])
+        remote_addrs = ",".join([uid.ip_addr for uid in user.user_identifiers])
         user_total_time = user_get_total_time_played(user)
         user_total_submissions = user_get_total_submissions(user)
         user_total_solved_submissions = user_get_total_solved_challenges(user)
         user_total_wrong_submissions = user_get_total_wrong_challenges(user)
         user_stats.append([
             i + 1,
+            user_agents,
+            remote_addrs,
             user.gender,
             user.age,
             user.english_skills,

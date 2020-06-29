@@ -89,6 +89,26 @@ class SolvedChallenges(db.Model):
     solved_challenge = relationship("Challenge", back_populates="users")
 
 
+user_identifier_association = db.Table('user_identifier_association',
+                                       db.Column('user_identifier', db.Integer, db.ForeignKey('user_identifier.id')),
+                                       db.Column('user_id', db.String(255), db.ForeignKey('user.uuid'))
+                                       )
+
+
+class UserIdentifier(db.Model, CRUDMixin):
+    __tablename__ = "user_identifier"
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    ip_addr = db.Column(db.String(255), unique=False)
+    user_agent = db.Column(db.String(2048), unique=False)
+
+    # Relation
+    users = relationship(
+        "User",
+        secondary=user_identifier_association,
+        back_populates="user_identifiers")
+
+
 class User(db.Model, CRUDMixin):
     __tablename__ = "user"
 
@@ -103,6 +123,11 @@ class User(db.Model, CRUDMixin):
     bash_experience = db.Column(db.String(255))
 
     # Relations
+    user_identifiers = relationship(
+        "UserIdentifier",
+        secondary=user_identifier_association,
+        back_populates="users")
+
     commands = relationship("SubmittedCommand", back_populates="user")
     badges = relationship(
         "Badge",
@@ -137,6 +162,28 @@ class User(db.Model, CRUDMixin):
             uuid=str(uuid4()),
             mode=choice(list(GameModes))
         )
+
+    def set_identifier(self, ip_addr: str, user_agent: str):
+        # does it exist?
+        identifier = UserIdentifier.query(
+            UserIdentifier.ip_addr == ip_addr,
+            UserIdentifier.user_agent == user_agent
+        ).first()
+
+        if identifier:
+            if identifier not in self.user_identifiers:
+                # update list of user agent of user if the current identifier is not associated with user
+                self.user_identifiers.append(identifier)
+        else:
+            # user agent does not exist -> Create it and link to user
+            self.user_identifiers.append(
+                UserIdentifier.create(
+                    ip_addr=ip_addr,
+                    user_agent=user_agent
+                )
+            )
+        # finally commit changes
+        self.save()
 
     def add_new_badges(self, applicable_badges: typing.Set):
         new_badges = applicable_badges - set(self.badges)

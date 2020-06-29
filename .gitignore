@@ -5,4 +5,6 @@ __pycache__
 *.pyc
 .env
 *.db
-./log.log
+log.log
+*.csv
+

@@ -4,7 +4,7 @@ from flask import Blueprint, request, jsonify, abort
 from sqlalchemy.exc import StatementError
 
 from server.challenges import execute_command
-from server.common import get_user, log_command
+from server.common import get_user, log_command, get_ip, get_user_agent
 from server.extensions import db
 from server.forms import DemographyForm
 from server.models import User, Badge, Challenge, FinalFeedback
@@ -41,6 +41,10 @@ def new_session():
         user = User.create_user()
         form.populate_user(user)
         user.save()
+        user.set_identifier(
+            ip_addr=get_ip(request),
+            user_agent=get_user_agent(request)
+        )
         return jsonify(user.to_dict()), 201
     # send errors
     errors = form.get_errors()
@@ -63,7 +67,14 @@ def list_badges():
 def get_user_state(uuid: str):
     user: User = User.query.get(uuid)
     if not user:
+        # user does not exist
         abort(404)
+    else:
+        # user exists and has been seen yet update user identifiers
+        user.set_identifier(
+            ip_addr=get_ip(request),
+            user_agent=get_user_agent(request)
+        )
     state = dict(
         badges=[badge.id for badge in user.badges],
         mode=user.mode.value,
