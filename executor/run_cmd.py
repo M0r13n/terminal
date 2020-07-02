@@ -31,7 +31,7 @@ class CommandExecutor(object):
 
     def __init__(self, config: DockerConfig = None):
         self.config: DockerConfig = config or DockerConfig()
-        self.execution_timeout: int = self.config.EXECUTION_TIMEOUT
+        self.execution_timeout: int = int(self.config.EXECUTION_TIMEOUT)
         self.docker_image: str = self.config.DOCKER_IMAGE
         self.client: DockerClient = DockerClient()
         self.init_client()
@@ -79,7 +79,7 @@ class CommandExecutor(object):
 
     @log_command
     @lru_cache(maxsize=2048)
-    def execute_command(self, command: typing.Tuple[str], challenge_name: str, custom_timeout: int = None) -> bytes:
+    def execute_command(self, command: typing.Tuple[str], challenge_name: str, custom_timeout: int = None) -> typing.Optional[bytes]:
         timeout = custom_timeout or self.execution_timeout
         challenge_dir = self.get_challenge_directory_from_challenge_name(challenge_name)
         with ContainerTimeout(timeout=timeout) as context:

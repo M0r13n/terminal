@@ -82,7 +82,7 @@ class Challenge:
         except KeyError as err:
             raise err from ValueError(f"Malformed Challenge-JSON detected.")
 
-    def load_challenge_data(self) -> dict:
+    def load_challenge_data(self) -> typing.Dict:
         fd = self.open_challenge_file()
         content = self.read_challenge_file_content(fd)
         self.dict = self.find_challenge_by_identifier(content)
@@ -92,13 +92,13 @@ class Challenge:
         challenge_fd = open(self.CHALLENGE_FILE_PATH, "r")
         return challenge_fd
 
-    def read_challenge_file_content(self, challenge_fd: typing.TextIO) -> dict:
+    def read_challenge_file_content(self, challenge_fd: typing.TextIO) -> typing.Dict:
         content = challenge_fd.read()
         json_content = json.loads(content)
         self.dict = json_content
         return json_content
 
-    def find_challenge_by_identifier(self, json_content: dict) -> dict:
+    def find_challenge_by_identifier(self, json_content: typing.Dict) -> typing.Dict:
         try:
             challenge_data = json_content[self.identifier]
             return challenge_data
@@ -170,7 +170,7 @@ class Challenge:
 
     def check_file_content(self) -> bool:
         try:
-            with open(self.target_file, "r") as target_file:
+            with open(str(self.target_file), "r") as target_file:
                 content = target_file.read()
                 print(content, self.target_file_expected_content)
                 return content == self.target_file_expected_content

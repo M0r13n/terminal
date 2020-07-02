@@ -27,4 +27,4 @@ html-file:
 	cp static/_base.html static/$(name)
 
 test:
-	python ./manage test
+	python ./test.py
