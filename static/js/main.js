@@ -89,7 +89,9 @@ function init_terminal(terminalEngine) {
         if (command === "clear") {
             // display the current challenge after each clear command
             if (terminalEngine.challenges.current_challenge) {
-                term.echo(apply_color(format_description(terminalEngine.challenges.current_challenge.description), "grey"), {keepWords: true});
+                term.echo(apply_color(format_description(terminalEngine.challenges.current_challenge.description), "grey"), {
+                    keepWords: true
+                });
             }
         }
     }
@@ -115,7 +117,9 @@ function init_terminal(terminalEngine) {
         completion: terminal_config.TAB_COMPLETION, // add tab completion
         onAfterCommand: show_challenge_description, // onClear does not work for some weird reason ¯\_(ツ)_/¯
         onInit: (term) => {
-            term.echo(WELCOME_GREETING, {keepWords: true})
+            term.echo(WELCOME_GREETING, {
+                keepWords: true
+            })
         },
     });
     terminalEngine.ready(); // finish the init process and display the first challenge
@@ -142,7 +146,10 @@ class Command {
 
     get json() {
         if (this.isValid) {
-            return JSON.stringify({command: this.command, challenge: this.challenge});
+            return JSON.stringify({
+                command: this.command,
+                challenge: this.challenge
+            });
         }
 
     }
@@ -464,7 +471,9 @@ class CommandlineEngine {
      */
     echo(msg) {
         if (this.terminal) {
-            this.terminal.echo(apply_color(msg, "gray"), {keepWords: false});
+            this.terminal.echo(apply_color(msg, "gray"), {
+                keepWords: false
+            });
         }
     }
 
@@ -559,6 +568,9 @@ class CommandlineEngine {
         this.success("Congratulations, you solved all problems\nDo you agree to answer a simple question about the user experience?\n" +
             " If so, please head to https://command-line.online/feedback.html");
         this.terminal.freeze(1); // lock the terminal and don't allow any interaction
+        if (this.challenges.current_index >= this.challenges.length) {
+            this.progressbar.percentage = 100;
+        }
     }
 
     /**
@@ -598,5 +610,3 @@ jQuery(document).ready(
         }
     }
 );
-
-
