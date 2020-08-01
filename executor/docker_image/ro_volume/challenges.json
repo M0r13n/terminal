@@ -128,7 +128,7 @@
     "identifier": "12_find_all_env_files_with_secrets",
     "name": "Find those secrets.",
     "dir": "12_find_all_env_files_with_secrets",
-    "description": "Find the hidden file and find the secret key.",
+    "description": "Find the hidden file and find the secret key. Your final command output should look like this: 'SECRET_KEY=something'",
     "solution": "cat .hidden_env | grep SECRET_KEY",
     "expected_output": "SECRET_KEY=my_precious\n",
     "help": "Files might not show up when using ls without any parameters. Files can be hidden, when their name has a leading dot. Your result should like: SECRET_KEY=something ."
@@ -142,6 +142,6 @@
     "expected_output": "",
     "target_file": "",
     "target_file_content": "linux is a great os. linux is opensource. linux is a free os.\nYou should learn about linux.\n",
-    "help": "There should be two files: unix.txt and linux.txt. Also you might take a look at the command sed."
+    "help": "There should be two files: unix.txt and linux.txt. Also you might take a look at the command sed. You could use the parameter 's/unix/linux/g' for sed. "
   }
 }
