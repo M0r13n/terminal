@@ -98,8 +98,8 @@
     "identifier": "10_copy_locations",
     "name": "Copy locations",
     "dir": "10_copy_locations",
-    "description": "Unzip the locations file for Kiel. The file can be found somewhere in the documents folder. The new file should be called locations.txt .",
-    "solution": "tar xfv ./documents/ny/locations.tar -C ./documents/ny/",
+    "description": "There is a file called 'file.tar' inside the documents folder. Please extract it's content into the same directory.",
+    "solution": "tar xfv ./documents/file.tar -C ./documents/",
     "expected_output": "locations.txt\n",
     "files_after_run": [
       "./bachelor_thesis",
@@ -108,14 +108,12 @@
       "./x64",
       "./bachelor_thesis/all_those_important_notes.md",
       "./documents",
-      "./documents/kiel",
-      "./documents/ny",
-      "./documents/ny/locations.tar",
-      "./documents/ny/locations.txt"
+      "./documents/file.tar",
+      "./documents/locations.txt"
     ],
-    "target_file": "./documents/ny/locations.txt",
+    "target_file": "./documents/locations.txt",
     "target_file_content": "Kiel\nBerlin\nHamburg\n",
-    "help": "You might take a look at the tar command and it's options. Especially look at the options -a and -x."
+    "help": "You might take a look at the tar command. You can use 'tar xfv ...' as a starting point. "
   },
   "11_all_files_that_end_with_log": {
     "identifier": "11_all_files_that_end_with_log",
