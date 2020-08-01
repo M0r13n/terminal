@@ -32,7 +32,7 @@
     "solution": "echo Hello World!",
     "expected_output": "Hello World!\n",
     "files_after_run": [],
-    "help": "Echo it out!"
+    "help": "Echo can print text."
   },
   "04_create_index_html": {
     "identifier": "04_create_index_html",
@@ -55,7 +55,7 @@
       "./BUT_LEAVE_ME.md",
       "./folder"
     ],
-    "help": "Look into folders and subfolders. Also make sure to only delete DELETE.me"
+    "help": "Look into folders and subfolders. Also make sure to only delete DELETE.me. You can delete files with rm."
   },
   "06_last_10_lines": {
     "identifier": "06_last_10_lines",
@@ -73,7 +73,7 @@
     "description": "Echo all lines that have the string '500' in them.",
     "solution": "cat logfile | grep 500",
     "expected_output": "\"192.168.4.164 - - [22/Dec/2016:15:19:08 +0300] \"GET /DVWA/vulnerabilities/Netsparkerde9009eb1827462bbb44b5560c4a6250/ HTTP/1.1\" 404 500 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:32 +0300] \"GET /DVWA/vulnerabilities/fi/include.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/vulnerabilities/fi/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:34 +0300] \"HEAD /DVWA/vulnerabilities/fi/include.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:57 +0300] \"GET /DVWA/dvwa/includes/DBMS/MySQL.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/dvwa/includes/DBMS/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:57 +0300] \"GET /DVWA/dvwa/includes/DBMS/PGSQL.php HTTP/1.1\" 500 206 \"http://192.168.4.161/DVWA/dvwa/includes/DBMS/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:59 +0300] \"HEAD /DVWA/dvwa/includes/DBMS/MySQL.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:19:59 +0300] \"HEAD /DVWA/dvwa/includes/DBMS/PGSQL.php HTTP/1.1\" 500 187 \"-\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:21:11 +0300] \"GET /DVWA/dvwa/?C=%2f%2fr87.com%2fn%2fn.css%3f0x000500 HTTP/1.1\" 200 730 \"http://192.168.4.161/DVWA/dvwa/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n\"192.168.4.164 - - [22/Dec/2016:15:21:13 +0300] \"GET /DVWA/dvwa/includes/%0D%0Ans:netsparker056650=vuln HTTP/1.1\" 404 500 \"http://192.168.4.161/DVWA/dvwa/\" \"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2272.16 Safari/537.36\"\"\n",
-    "help": "You can pipe the output of a command into another one by using the | operator."
+    "help": "You can pipe the output of a command into another one by using the | operator. Also you can filter text with grep."
   },
   "08_current_user": {
     "identifier": "08_current_user",
@@ -82,7 +82,7 @@
     "description": "Who are you? Echo your current username.",
     "solution": "whoami",
     "expected_output": "root\n",
-    "help": "Who am I ?"
+    "help": "whoami?"
   },
   "09_copy_file": {
     "identifier": "09_copy_file",
@@ -113,7 +113,7 @@
     ],
     "target_file": "./documents/locations.txt",
     "target_file_content": "Kiel\nBerlin\nHamburg\n",
-    "help": "You might take a look at the tar command. You can use 'tar xfv ...' as a starting point. "
+    "help": "You might take a look at the tar command. You can use 'tar xfv ...' as a starting point. Make sure to extract the file into the documents folder."
   },
   "11_all_files_that_end_with_log": {
     "identifier": "11_all_files_that_end_with_log",
@@ -122,7 +122,7 @@
     "description": "Get all log files. Logfiles end with .log",
     "solution": "ls | grep .log",
     "expected_output": "b.log\nl.log\nsecret.log\n",
-    "help": "This should be easy now."
+    "help": "Get all files with ls and filter that output with grep."
   },
   "12_find_all_env_files_with_secrets": {
     "identifier": "12_find_all_env_files_with_secrets",
