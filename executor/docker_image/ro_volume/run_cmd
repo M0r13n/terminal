@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 """
+This is the command line runner which runs all commands and handles validation. 
+
 This script executes a command in a sub shell(Bash) and validates it's output and side effects.
 
 At first a Challenge object is created based on the first element of the arguments-vector (sys.argv).

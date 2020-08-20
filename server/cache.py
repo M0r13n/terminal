@@ -6,17 +6,20 @@ from server.models import CommandCache
 
 
 def hash_cmd(command: str):
+    """ Compute a SHA-224 hash for a given string """
     command_encoded = command.encode('utf-8')
     digest = hashlib.sha224(command_encoded).hexdigest()
     return digest
 
 
 def get_from_cache(command: str, challenge_identifier: str) -> typing.Optional[CommandCache]:
+    """ Query the database for that command. PK is (hash of cmd, challenge_id)"""
     c = CommandCache.get_by_pks(hash=hash_cmd(command), challenge_identifier=challenge_identifier)
     return c
 
 
 def cache(command: str, challenge_identifier: str, result: dict) -> CommandCache:
+    """Store the command and it's output in cache"""
     c = CommandCache.create(
         hash=hash_cmd(command),
         challenge_identifier=challenge_identifier,
@@ -27,6 +30,11 @@ def cache(command: str, challenge_identifier: str, result: dict) -> CommandCache
 
 
 def cache_command():
+    """
+    Wrapper around the run_cmd function.
+    Only execute the called function if the command is not cached.
+    Also makes sure to cache non-cached function for future use.
+    """
     def wrapper(func):
         @functools.wraps(func)
         def wrap_func(command: str, challenge_identifier: str):

@@ -15,6 +15,10 @@ logger = logging.getLogger(__name__)
 
 
 class ContainerTimeout(object):
+    """
+    This is a context mananger which periodically checks the output of a 
+    docker container and kills it, if a certain timeout has passed.
+    """
 
     def __init__(self, timeout=5):
         self.container = None

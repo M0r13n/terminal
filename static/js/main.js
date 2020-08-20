@@ -4,7 +4,9 @@ const WELCOME_GREETING = "Welcome to WebShell.😀\n" +
     "You can clear the terminal by typing " + apply_color('clear', "blue") + ".\n" +
     "You can go to the about page by typing " + apply_color('about', "blue") + ".\n" +
     "Submit a bug report by typing " + apply_color('bug', "blue") + "\n" +
-    "If you need help, you can type " + apply_color('help', "blue") + ".\n";
+    "If you need help, you can type " + apply_color('help', "blue") + ".\n\n" +
+    "Remember that you don't need to solve all challenges. You can stop any time.\n" +
+    "You may also come back later, as your progress is stored inside your browser.\n";
 
 const terminal_config = {
     TAB_COMPLETION: ["find", "echo", "awk", "sed", "wc", "grep", "cat", "sort", "cut", "ls", "rm", "less", "head", "tail"],
@@ -13,6 +15,7 @@ const terminal_config = {
 }
 
 const server_config = {
+    // where to send the submitted commands?
     API_URL: "https://api.command-line.online/",
     //API_URL: "http://localhost:5000/",
 }
