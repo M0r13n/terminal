@@ -137,6 +137,7 @@ def generate_report_csv():
     """
     field_names = [
         "Subject",
+        "First seen",
         "User Agent(s)",
         "Remote IP Addr(s)",
         "Gender",
@@ -151,7 +152,8 @@ def generate_report_csv():
     ]
 
     user_stats = []
-    for i, user in enumerate(User.query.all()):
+    for i, user in enumerate(User.query.order_by(User.first_seen).all()):
+        first_seen = user.first_seen.strftime('%d.%m.%Y %H:%H Uhr')
         user_agents = ",".join([uid.user_agent for uid in user.user_identifiers])
         remote_addrs = ",".join([uid.ip_addr for uid in user.user_identifiers])
         user_total_time = user_get_total_time_played(user)
@@ -160,6 +162,7 @@ def generate_report_csv():
         user_total_wrong_submissions = user_get_total_wrong_challenges(user)
         user_stats.append([
             i + 1,
+            first_seen,
             user_agents,
             remote_addrs,
             user.gender,
