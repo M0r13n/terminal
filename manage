@@ -133,11 +133,12 @@ def user_get_total_wrong_challenges(user: User):
 @cli.command()
 def generate_report_csv():
     """
-    Subject | Gender | Age | English Skills | Knowledge | Total Time played | Total Submissions  | Total solved Challenges | N wrong commands |
+    Subject | First seen | Gender | Age | English Skills | Knowledge | Total Time played | Total Submissions  | Total solved Challenges | N wrong commands |
     """
     field_names = [
         "Subject",
         "First seen",
+        "Group",
         "User Agent(s)",
         "Remote IP Addr(s)",
         "Gender",
@@ -152,8 +153,10 @@ def generate_report_csv():
     ]
 
     user_stats = []
+    THRESHOLD = datetime.datetime(year=2020, month=9, day=6) # 2020.09.06 00:00
     for i, user in enumerate(User.query.order_by(User.first_seen).all()):
         first_seen = user.first_seen.strftime('%d.%m.%Y %H:%H Uhr')
+        group = int(user.first_seen < THRESHOLD)
         user_agents = ",".join([uid.user_agent for uid in user.user_identifiers])
         remote_addrs = ",".join([uid.ip_addr for uid in user.user_identifiers])
         user_total_time = user_get_total_time_played(user)
@@ -163,6 +166,7 @@ def generate_report_csv():
         user_stats.append([
             i + 1,
             first_seen,
+            group_1,
             user_agents,
             remote_addrs,
             user.gender,
